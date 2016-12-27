@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+         version="3.1">
+
+    <display-name>Online library</display-name>
+
+    <servlet>
+        <servlet-name>UserServlet</servlet-name>
+        <servlet-class>ru.innopolis.uni.course3.servlet.UserServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UserServlet</servlet-name>
+        <url-pattern>/users</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>BookServlet</servlet-name>
+        <servlet-class>ru.innopolis.uni.course3.servlet.BookServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>BookServlet</servlet-name>
+        <url-pattern>/books</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>StartServlet</servlet-name>
+        <servlet-class>ru.innopolis.uni.course3.servlet.StartServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>StartServlet</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+
+    <filter>
+        <filter-name>UserCheckFilter</filter-name>
+        <filter-class>ru.innopolis.uni.course3.servlet.UserCheckFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>UserCheckFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+</web-app>
