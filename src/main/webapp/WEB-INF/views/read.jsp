@@ -9,7 +9,11 @@
 <body>
 <%@ include file="header.jsp" %>
 <br>
-<p>We are reading the book ${title} by ${author}</p>
+<h2>${title} - ${author}</h2>
+<br>
+<span>${text}</span>
+<br>
+<br>
 <br>
 <button onclick="window.history.back()">Cancel</button>
 </body>

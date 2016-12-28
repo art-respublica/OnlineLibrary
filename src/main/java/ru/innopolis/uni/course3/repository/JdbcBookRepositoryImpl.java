@@ -46,7 +46,8 @@ public class JdbcBookRepositoryImpl implements BookRepository {
                 .addValue("id", book.getId())
                 .addValue("author", book.getAuthor())
                 .addValue("title", book.getTitle())
-                .addValue("year", book.getYear());
+                .addValue("year", book.getYear())
+                .addValue("text", book.getText());
         Number newKey = insertUser.executeAndReturnKey(map);
         book.setId(newKey.intValue());
         return book;
@@ -58,9 +59,10 @@ public class JdbcBookRepositoryImpl implements BookRepository {
                 .addValue("id", book.getId())
                 .addValue("author", book.getAuthor())
                 .addValue("title", book.getTitle())
-                .addValue("year", book.getYear());
+                .addValue("year", book.getYear())
+                .addValue("text", book.getText());
         namedParameterJdbcTemplate.update(
-                "UPDATE books SET author=:author, title=:title, year=:year WHERE id=:id", map);
+                "UPDATE books SET author=:author, title=:title, year=:year, text=:text WHERE id=:id", map);
         return book;
     }
 

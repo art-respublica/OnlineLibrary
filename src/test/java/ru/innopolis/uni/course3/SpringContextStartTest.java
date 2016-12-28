@@ -9,7 +9,7 @@ import java.util.Arrays;
 /**
  * Created by Артем on 27.12.2016.
  */
-public class MainTest {
+public class SpringContextStartTest {
 
     public static void main(String[] args) {
 

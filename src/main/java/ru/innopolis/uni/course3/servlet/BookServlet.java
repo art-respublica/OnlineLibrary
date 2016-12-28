@@ -53,6 +53,7 @@ public class BookServlet extends HttpServlet {
             Book book = service.get(id);
             req.setAttribute("author", book.getAuthor());
             req.setAttribute("title",  book.getTitle());
+            req.setAttribute("text", book.getText());
             req.getRequestDispatcher("/WEB-INF/views/read.jsp").forward(req, resp);
 
         } else if ("delete".equals(action)){
@@ -65,7 +66,7 @@ public class BookServlet extends HttpServlet {
         } else if ("create".equals(action) || "update".equals(action)){
 
             final Book book = action.equals("create") ?
-                    new Book("", "", LocalDate.now().getYear()) : service.get(getId(req));
+                    new Book("", "", LocalDate.now().getYear(), "") : service.get(getId(req));
             req.setAttribute("book", book);
             req.getRequestDispatcher("/WEB-INF/views/book.jsp").forward(req, resp);
         }
@@ -80,7 +81,8 @@ public class BookServlet extends HttpServlet {
         Book book = new Book(id.isEmpty() ? null : Integer.valueOf(id),
                 req.getParameter("author"),
                 req.getParameter("title"),
-                Integer.valueOf(req.getParameter("year")));
+                Integer.valueOf(req.getParameter("year")),
+                req.getParameter("text"));
         logger.info("BookServlet:  " + (book.isNew() ? "create of" : "update of") +  book);
         if(book.isNew() ){
             service.add(book);

@@ -20,5 +20,6 @@ CREATE TABLE books (
   id          INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
   author      TEXT NOT NULL,
   title       TEXT NOT NULL,
-  year        INTEGER NOT NULL
+  year        INTEGER NOT NULL,
+  text        TEXT NOT NULL
 );

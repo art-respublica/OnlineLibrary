@@ -26,14 +26,14 @@
             <dt>Password:</dt>
             <dd><input type="password" value="${user.getPassword()}" size=40 name="password"></dd>
         </dl>
-        <dl>
+<%--        <dl>
             <dt>Registered:</dt>
             <dd><input type="datetime-local" value="${meal.getRegistered()}" name="registered"></dd>
         </dl>
         <dl>
             <dt>Enabled:</dt>
             <dd><input type="checkbox" value="${user.isEnabled()}" name="enabled"></dd>
-        </dl>
+        </dl>--%>
         <dl>
             <dt>Role:</dt>
             <dd><input type="text" value="${user.getRole()}" size=40 name="role"></dd>

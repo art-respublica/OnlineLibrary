@@ -1,5 +1,6 @@
 package ru.innopolis.uni.course3.servlet;
 
+import ru.innopolis.uni.course3.model.Role;
 import ru.innopolis.uni.course3.model.User;
 
 import javax.servlet.*;
@@ -29,9 +30,24 @@ public class UserCheckFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         HttpSession session = req.getSession();
         User user = (User) session.getAttribute("user");
-        String stringId = req.getParameter("userId");
+        String servletPath = ((HttpServletRequest) servletRequest).getServletPath();
+        String action = servletRequest.getParameter("action");
+        String userId = req.getParameter("userId");
 
-        if (stringId != null && user != null && !user.getId().equals(Integer.valueOf(stringId))){
+        if ( ("/users".equals(servletPath)
+                && !"signup".equals(action)
+                && !"signin".equals(action)
+                && user == null)
+            || ("/users".equals(servletPath)
+                && user != null
+                && !"profile".equals(action)
+                && !"save".equals(action)
+                && !"logout".equals(action)
+                && !"signin".equals(action)
+                && !user.getRole().equals(Role.ROLE_LIBRARIAN.toString()))
+            || (user == null && userId != null)
+            || (user != null && userId != null
+                && !user.getId().equals(Integer.valueOf(userId))) ){
             req.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(servletRequest, servletResponse);
             return;
         }

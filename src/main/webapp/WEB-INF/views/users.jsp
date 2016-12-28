@@ -15,8 +15,8 @@
     <tr>
         <th>Name</th>
         <th>Email</th>
-        <th>Registered</th>
-        <th>Enabled</th>
+<%--        <th>Registered</th>
+        <th>Enabled</th>--%>
         <th>Role</th>
         <th></th>
         <th></th>
@@ -27,8 +27,8 @@
         <tr>
             <td>${user.getName()}</td>
             <td>${user.getEmail()}</td>
-            <td>${user.getRegistered()}</td>
-            <td>${user.isEnabled()}</td>
+<%--            <td>${user.getRegistered()}</td>
+            <td>${user.isEnabled()}</td>--%>
             <td>${user.getRole()}</td>
             <td><a href="users?action=update&id=${user.getId()}">Update</a></td>
             <td><a href="users?action=delete&id=${user.getId()}">Delete</a></td>

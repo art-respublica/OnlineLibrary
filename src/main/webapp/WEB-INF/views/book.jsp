@@ -19,12 +19,16 @@
             <dd><input type="text" value="${book.getAuthor()}" size=40 name="author"></dd>
         </dl>
         <dl>
-            <dt>Surname:</dt>
+            <dt>Title:</dt>
             <dd><input type="text" value="${book.getTitle()}" size=40 name="title"></dd>
         </dl>
         <dl>
             <dt>Year:</dt>
             <dd><input type="number" value="${book.getYear()}" name="year"></dd>
+        </dl>
+        <dl>
+            <dt>Text:</dt>
+            <dd><input type="text" value="${book.getText()}" size=40 name="text"></dd>
         </dl>
         <button type="submit">Save</button>
         <button onclick="window.history.back()">Cancel</button>

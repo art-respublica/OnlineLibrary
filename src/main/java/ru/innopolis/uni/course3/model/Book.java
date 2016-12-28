@@ -9,23 +9,25 @@ public class Book {
     private String author;
     private String title;
     private Integer year;
+    private String text;
 
     public Book() {
     }
 
     public Book(Book b) {
-        this(b.getId(), b.getAuthor(), b.getTitle(), b.getYear());
+        this(b.getId(), b.getAuthor(), b.getTitle(), b.getYear(), b.getText());
     }
 
-    public Book(String author, String title, Integer year) {
-        this(null, author, title, year);
+    public Book(String author, String title, Integer year, String text) {
+        this(null, author, title, year, text);
     }
 
-    public Book(Integer id, String author, String title, Integer year) {
+    public Book(Integer id, String author, String title, Integer year, String text) {
         this.id = id;
         this.author = author;
         this.title = title;
         this.year = year;
+        this.text = text;
     }
 
     public Integer getId() {
@@ -62,5 +64,13 @@ public class Book {
 
     public void setYear(Integer year) {
         this.year = year;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
     }
 }
