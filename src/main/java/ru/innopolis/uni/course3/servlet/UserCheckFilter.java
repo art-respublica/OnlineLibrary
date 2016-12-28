@@ -24,6 +24,8 @@ public class UserCheckFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
 
+        servletRequest.setCharacterEncoding("UTF-8");
+
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         HttpSession session = req.getSession();
         User user = (User) session.getAttribute("user");
