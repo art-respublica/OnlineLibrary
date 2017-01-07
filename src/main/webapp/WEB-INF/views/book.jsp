@@ -5,17 +5,17 @@
 <html>
 <head>
     <title>Book</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/style.css"/>"/>
 </head>
 <body>
 <section>
     <h3>Edit book</h3>
     <hr>
     <jsp:useBean id="book" type="ru.innopolis.uni.course3.model.Book" scope="request"/>
-    <form method="post" action="books">
+    <form method="post" action="save">
         <input type="hidden" name="id" value="${book.getId()}">
         <dl>
-            <dt>Name:</dt>
+            <dt>Author:</dt>
             <dd><input type="text" value="${book.getAuthor()}" size=40 name="author"></dd>
         </dl>
         <dl>

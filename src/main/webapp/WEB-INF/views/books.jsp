@@ -10,7 +10,7 @@
 <%@ include file="header.jsp" %>
 <h2>Books</h2>
 <c:if test="${isLibrarian}">
-    <a href="books?action=create">Add Book</a>
+    <a href="books/create/new">Add Book</a>
 </c:if>
 <table border="1" cellpadding="8" cellspacing="0">
     <thead>
@@ -32,10 +32,10 @@
             <td>${book.getTitle()}</td>
             <td>${book.getYear()}</td>
             <c:if test="${isLibrarian}">
-                <td><a href="books?action=update&id=${book.getId()}">Update</a></td>
-                <td><a href="books?action=delete&id=${book.getId()}">Delete</a></td>
+                <td><a href="books/update/${book.getId()}">Update</a></td>
+                <td><a href="books/delete/${book.getId()}">Delete</a></td>
             </c:if>
-            <td><a href="books?action=read&id=${book.getId()}">Read</a></td>
+            <td><a href="books/read/${book.getId()}">Read</a></td>
         </tr>
     </c:forEach>
 </table>

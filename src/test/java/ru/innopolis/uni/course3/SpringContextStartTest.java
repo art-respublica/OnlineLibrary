@@ -7,7 +7,7 @@ import ru.innopolis.uni.course3.service.BookServiceImpl;
 import java.util.Arrays;
 
 /**
- * Created by Артем on 27.12.2016.
+ *
  */
 public class SpringContextStartTest {
 

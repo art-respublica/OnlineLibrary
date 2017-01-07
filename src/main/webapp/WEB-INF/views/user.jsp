@@ -5,14 +5,14 @@
 <html>
 <head>
     <title>User</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/style.css"/>"/>
 </head>
 <body>
 <section>
     <h3>Edit user</h3>
     <hr>
     <jsp:useBean id="user" type="ru.innopolis.uni.course3.model.User" scope="request"/>
-    <form method="post" action="users?action=save">
+    <form method="post" action="save">
         <input type="hidden" name="id" value="${user.getId()}">
         <dl>
             <dt>Name:</dt>
@@ -26,14 +26,14 @@
             <dt>Password:</dt>
             <dd><input type="password" value="${user.getPassword()}" size=40 name="password"></dd>
         </dl>
-<%--        <dl>
+        <dl>
             <dt>Registered:</dt>
             <dd><input type="datetime-local" value="${meal.getRegistered()}" name="registered"></dd>
         </dl>
         <dl>
             <dt>Enabled:</dt>
             <dd><input type="checkbox" value="${user.isEnabled()}" name="enabled"></dd>
-        </dl>--%>
+        </dl>
         <dl>
             <dt>Role:</dt>
             <dd><input type="text" value="${user.getRole()}" size=40 name="role"></dd>

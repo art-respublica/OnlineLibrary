@@ -73,4 +73,10 @@ public class Book {
     public void setText(String text) {
         this.text = text;
     }
+
+    @Override
+    public String toString() {
+        return title + " - " + author;
+    }
+
 }

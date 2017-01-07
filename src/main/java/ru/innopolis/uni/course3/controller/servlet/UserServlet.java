@@ -1,4 +1,4 @@
-package ru.innopolis.uni.course3.servlet;
+package ru.innopolis.uni.course3.controller.servlet;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +24,7 @@ import java.util.Objects;
 /**
  *
  */
+@Deprecated
 public class UserServlet extends HttpServlet {
 
     private static final Logger logger = LoggerFactory.getLogger(UserServlet.class);

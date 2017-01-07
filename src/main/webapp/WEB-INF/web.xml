@@ -6,36 +6,34 @@
 
     <display-name>Online library</display-name>
 
-    <servlet>
-        <servlet-name>UserServlet</servlet-name>
-        <servlet-class>ru.innopolis.uni.course3.servlet.UserServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>UserServlet</servlet-name>
-        <url-pattern>/users</url-pattern>
-    </servlet-mapping>
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>
+            classpath:spring/spring-app.xml
+            classpath:spring/spring-db.xml
+        </param-value>
+    </context-param>
 
+    <!-- Spring MVC -->
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
     <servlet>
-        <servlet-name>BookServlet</servlet-name>
-        <servlet-class>ru.innopolis.uni.course3.servlet.BookServlet</servlet-class>
+        <servlet-name>springDispatcher</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>classpath:spring/spring-mvc.xml</param-value>
+        </init-param>
     </servlet>
     <servlet-mapping>
-        <servlet-name>BookServlet</servlet-name>
-        <url-pattern>/books</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>StartServlet</servlet-name>
-        <servlet-class>ru.innopolis.uni.course3.servlet.StartServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>StartServlet</servlet-name>
+        <servlet-name>springDispatcher</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
 
     <filter>
         <filter-name>UserCheckFilter</filter-name>
-        <filter-class>ru.innopolis.uni.course3.servlet.UserCheckFilter</filter-class>
+        <filter-class>ru.innopolis.uni.course3.controller.servlet.UserCheckFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>UserCheckFilter</filter-name>

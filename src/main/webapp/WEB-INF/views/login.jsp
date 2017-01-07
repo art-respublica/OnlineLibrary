@@ -5,10 +5,10 @@
 <html>
 <head>
     <title>Login</title>
-    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/style.css"/>"/>
 </head>
 <body>
-<form action="users?action=signin" method="post">
+<form action="${pageContext.request.contextPath}/users/signin" method="post">
     Email: <input type="text" name="email"/>
     Password: <input type="password" name="password"/>
     <button type="submit">Sing In</button>

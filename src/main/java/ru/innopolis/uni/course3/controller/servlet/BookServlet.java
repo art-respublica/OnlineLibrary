@@ -1,4 +1,4 @@
-package ru.innopolis.uni.course3.servlet;
+package ru.innopolis.uni.course3.controller.servlet;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,9 +20,10 @@ import java.util.Objects;
 /**
  *
  */
+@Deprecated
 public class BookServlet extends HttpServlet {
 
-    private static final Logger logger = LoggerFactory.getLogger(UserServlet.class);
+    private static final Logger logger = LoggerFactory.getLogger(BookServlet.class);
 
     private ConfigurableApplicationContext springContext;
     private BookService service;

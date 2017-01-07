@@ -1,4 +1,4 @@
-package ru.innopolis.uni.course3.servlet;
+package ru.innopolis.uni.course3.controller.servlet;
 
 import ru.innopolis.uni.course3.model.Role;
 import ru.innopolis.uni.course3.model.User;
@@ -30,20 +30,24 @@ public class UserCheckFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         HttpSession session = req.getSession();
         User user = (User) session.getAttribute("user");
-        String servletPath = ((HttpServletRequest) servletRequest).getServletPath();
-        String action = servletRequest.getParameter("action");
-        String userId = req.getParameter("userId");
+        String path = ((HttpServletRequest) servletRequest).getServletPath();
 
-        if ( ("/users".equals(servletPath)
-                && !"signup".equals(action)
-                && !"signin".equals(action)
+        String userId = null;
+        if( path.contains("users") && path.contains("profile") ) {
+            String[] strings = path.split("/");
+            userId = strings[strings.length - 1];
+        }
+
+        if ( (path.contains("users")
+                && !path.contains("signup")
+                && !path.contains("signin")
                 && user == null)
-            || ("/users".equals(servletPath)
+            || (path.contains("users")
                 && user != null
-                && !"profile".equals(action)
-                && !"save".equals(action)
-                && !"logout".equals(action)
-                && !"signin".equals(action)
+                && !path.contains("profile")
+                && !path.contains("save")
+                && !path.contains("logout")
+                && !path.contains("signin")
                 && !user.getRole().equals(Role.ROLE_LIBRARIAN.toString()))
             || (user == null && userId != null)
             || (user != null && userId != null

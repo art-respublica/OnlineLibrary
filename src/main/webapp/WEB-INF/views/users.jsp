@@ -9,14 +9,14 @@
 <body>
 <%@ include file="header.jsp" %>
 <h2>Users</h2>
-<a href="users?action=create">Add User</a>
+<a href="users/create/new">Add User</a>
 <table border="1" cellpadding="8" cellspacing="0">
     <thead>
     <tr>
         <th>Name</th>
         <th>Email</th>
-<%--        <th>Registered</th>
-        <th>Enabled</th>--%>
+        <th>Registered</th>
+        <th>Enabled</th>
         <th>Role</th>
         <th></th>
         <th></th>
@@ -27,11 +27,11 @@
         <tr>
             <td>${user.getName()}</td>
             <td>${user.getEmail()}</td>
-<%--            <td>${user.getRegistered()}</td>
-            <td>${user.isEnabled()}</td>--%>
+            <td>${user.getRegistered()}</td>
+            <td>${user.isEnabled()}</td>
             <td>${user.getRole()}</td>
-            <td><a href="users?action=update&id=${user.getId()}">Update</a></td>
-            <td><a href="users?action=delete&id=${user.getId()}">Delete</a></td>
+            <td><a href="users/update/${user.getId()}">Update</a></td>
+            <td><a href="users/delete/${user.getId()}">Delete</a></td>
         </tr>
     </c:forEach>
 </table>
