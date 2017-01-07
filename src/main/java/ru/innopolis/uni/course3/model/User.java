@@ -11,6 +11,7 @@ public class User {
     private String name;
     private String email;
     private String password;
+    private String salt;
     private Date registered = new Date();
     private boolean enabled = true;
     private String role;
@@ -31,6 +32,7 @@ public class User {
         this.name = name;
         this.email = email;
         this.password = password;
+        this.salt = salt;
         this.registered = registered;
         this.enabled = enabled;
         this.role = role;
@@ -70,6 +72,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
     }
 
     public Date getRegistered() {

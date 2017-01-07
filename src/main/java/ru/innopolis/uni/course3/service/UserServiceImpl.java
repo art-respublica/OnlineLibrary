@@ -1,5 +1,7 @@
 package ru.innopolis.uni.course3.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.innopolis.uni.course3.model.User;
@@ -13,19 +15,27 @@ import java.util.List;
 @Component
 public class UserServiceImpl implements UserService {
 
+    private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+
     @Autowired
     private UserRepository repository;
+
+    @Autowired
+    private PasswordAuthentication authentication;
 
     public UserServiceImpl() {
     }
 
     @Override
     public User add(User user) {
+        user.setSalt(authentication.getSalt());
+        user.setPassword(authentication.generateStrongPasswordHash(user.getPassword(), user.getSalt()));
         return repository.add(user);
     }
 
     @Override
     public User update(User user) {
+        user.setPassword(authentication.generateStrongPasswordHash(user.getPassword(), user.getSalt()));
         return repository.update(user);
     }
 

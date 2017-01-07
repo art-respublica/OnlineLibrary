@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.innopolis.uni.course3.model.Role;
 import ru.innopolis.uni.course3.model.User;
+import ru.innopolis.uni.course3.service.PasswordAuthentication;
 import ru.innopolis.uni.course3.service.UserService;
 
 import javax.servlet.http.HttpSession;
@@ -26,6 +27,9 @@ public class UserController {
 
     @Autowired
     private UserService service;
+
+    @Autowired
+    private PasswordAuthentication authentication;
 
     @GetMapping("/users")
     public String showList(Model model){
@@ -92,7 +96,6 @@ public class UserController {
         } else {
             service.update(user);
         }
-
         if((boolean) session.getAttribute("isLibrarian")) {
             return "redirect:/users";
         } else {
@@ -126,7 +129,7 @@ public class UserController {
             return null;
         }
         // Check if the password is valid
-        if (!user.getPassword().equals(password.trim())){
+        if (!authentication.isExpectedPassword(password, user.getSalt(), user.getPassword())){
             return null;
         }
         return user;

@@ -10,10 +10,12 @@ CREATE TABLE users
   name       VARCHAR NOT NULL,
   email      VARCHAR NOT NULL,
   password   VARCHAR NOT NULL,
+  salt       VARCHAR NOT NULL,
+  role       VARCHAR NOT NULL,
   registered TIMESTAMP DEFAULT now(),
-  enabled    BOOL DEFAULT TRUE,
-  role       VARCHAR NOT NULL
+  enabled    BOOL DEFAULT TRUE
 );
+
 CREATE UNIQUE INDEX users_unique_email_idx ON users (email);
 
 CREATE TABLE books (
