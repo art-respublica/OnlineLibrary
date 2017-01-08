@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Component;
+import ru.innopolis.uni.course3.exception.WrongProcessingOfUserException;
 import ru.innopolis.uni.course3.model.User;
 
 import javax.sql.DataSource;
@@ -41,19 +42,23 @@ public class JdbcUserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public User add(User user) {
-        MapSqlParameterSource map = new MapSqlParameterSource()
-                .addValue("id", user.getId())
-                .addValue("name", user.getName())
-                .addValue("email", user.getEmail())
-                .addValue("password", user.getPassword())
-                .addValue("salt", user.getSalt())
-                .addValue("registered", user.getRegistered())
-                .addValue("enabled", user.isEnabled())
-                .addValue("role", user.getRole());
-        Number newKey = insertUser.executeAndReturnKey(map);
-        user.setId(newKey.intValue());
-        return user;
+    public User add(User user) throws WrongProcessingOfUserException {
+        try {
+            MapSqlParameterSource map = new MapSqlParameterSource()
+                    .addValue("id", user.getId())
+                    .addValue("name", user.getName())
+                    .addValue("email", user.getEmail())
+                    .addValue("password", user.getPassword())
+                    .addValue("salt", user.getSalt())
+                    .addValue("registered", user.getRegistered())
+                    .addValue("enabled", user.isEnabled())
+                    .addValue("role", user.getRole());
+            Number newKey = insertUser.executeAndReturnKey(map);
+            user.setId(newKey.intValue());
+            return user;
+        } catch (Exception exception) {
+            throw new WrongProcessingOfUserException(exception.getMessage());
+        }
     }
 
     @Override
@@ -68,7 +73,7 @@ public class JdbcUserRepositoryImpl implements UserRepository {
                 .addValue("role", user.getRole());
         namedParameterJdbcTemplate.update(
                 "UPDATE users SET name=:name, email=:email, password=:password, " +
-                        "registered=:registered, enabled=:enabled WHERE id=:id", map);
+                        "registered=:registered, enabled=:enabled, role=:role WHERE id=:id", map);
         return user;
     }
 

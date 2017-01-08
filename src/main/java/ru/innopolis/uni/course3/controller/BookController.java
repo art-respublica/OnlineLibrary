@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import ru.innopolis.uni.course3.exception.WrongProcessingOfBookException;
 import ru.innopolis.uni.course3.model.Book;
 import ru.innopolis.uni.course3.service.BookService;
 
@@ -36,25 +37,37 @@ public class BookController {
     public String readById(Model model, @PathVariable Integer bookId){
         logger.info("Book controller: read book with id", bookId);
 
-        Book book = service.get(bookId);
-        model.addAttribute("author", book.getAuthor());
-        model.addAttribute("title", book.getTitle());
-        model.addAttribute("text", book.getText());
-        return "read";
+        try {
+            Book book = service.get(bookId);
+            model.addAttribute("author", book.getAuthor());
+            model.addAttribute("title", book.getTitle());
+            model.addAttribute("text", book.getText());
+            return "read";
+        } catch (WrongProcessingOfBookException e) {
+            return "wrong";
+        }
     }
 
     @GetMapping("/books/delete/{bookId}")
     public String deleteById(@PathVariable Integer bookId){
         logger.info("Book controller: delete book with id", bookId);
-        service.delete(bookId);
-        return "redirect:/books";
+        try {
+            service.delete(bookId);
+            return "redirect:/books";
+        } catch (WrongProcessingOfBookException e) {
+            return "wrong";
+        }
     }
 
     @GetMapping("/books/update/{bookId}")
     public String updateById(Model model, @PathVariable Integer bookId){
-        Book book = service.get(bookId);
-        model.addAttribute("book", book);
-        return "book";
+        try {
+            Book book = service.get(bookId);
+            model.addAttribute("book", book);
+            return "book";
+        } catch (WrongProcessingOfBookException e) {
+            return "wrong";
+        }
     }
 
     @GetMapping("/books/create/new")

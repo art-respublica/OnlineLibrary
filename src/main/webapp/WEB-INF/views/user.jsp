@@ -28,15 +28,24 @@
         </dl>
         <dl>
             <dt>Registered:</dt>
-            <dd><input type="datetime-local" value="${meal.getRegistered()}" name="registered"></dd>
-        </dl>
-        <dl>
-            <dt>Enabled:</dt>
-            <dd><input type="checkbox" value="${user.isEnabled()}" name="enabled"></dd>
+            <dd><input type="datetime-local" value="${user.getRegistered()}" name="registered"></dd>
         </dl>
         <dl>
             <dt>Role:</dt>
-            <dd><input type="text" value="${user.getRole()}" size=40 name="role"></dd>
+            <dd>
+                <select size="1" name="role">
+                <c:choose>
+                    <c:when test="${'ROLE_READER'.equals(user.getRole())}">
+                        <option selected value="ROLE_READER">Reader</option>
+                        <option value="ROLE_LIBRARIAN">Librarian</option>
+                    </c:when>
+                    <c:otherwise>
+                        <option selected value="ROLE_LIBRARIAN">Librarian</option>
+                        <option value="ROLE_READER">Reader</option>
+                    </c:otherwise>
+                </c:choose>
+                </select>
+            </dd>
         </dl>
         <button type="submit">Save</button>
         <button onclick="window.history.back()">Cancel</button>

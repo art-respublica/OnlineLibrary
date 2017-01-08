@@ -4,6 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import ru.innopolis.uni.course3.exception.ExceptionUtil;
+import ru.innopolis.uni.course3.exception.WrongProcessingOfUserException;
 import ru.innopolis.uni.course3.model.User;
 import ru.innopolis.uni.course3.repository.UserRepository;
 
@@ -27,7 +29,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User add(User user) {
+    public User add(User user) throws WrongProcessingOfUserException {
         user.setSalt(authentication.getSalt());
         user.setPassword(authentication.generateStrongPasswordHash(user.getPassword(), user.getSalt()));
         return repository.add(user);
@@ -35,18 +37,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User update(User user) {
-        user.setPassword(authentication.generateStrongPasswordHash(user.getPassword(), user.getSalt()));
+//        user.setPassword(authentication.generateStrongPasswordHash(user.getPassword(), user.getSalt()));
         return repository.update(user);
     }
 
     @Override
-    public void delete(int id) {
-        repository.delete(id);
+    public void delete(int id) throws WrongProcessingOfUserException{
+        ExceptionUtil.checkUserNotFoundWithId(repository.delete(id), id);
     }
 
     @Override
-    public User get(int id) {
-        return repository.get(id);
+    public User get(int id) throws WrongProcessingOfUserException {
+        return ExceptionUtil.checkUserNotFoundWithId(repository.get(id), id);
     }
 
     @Override
@@ -55,7 +57,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getByEmail(String email) {
-        return repository.getByEmail(email);
+    public User getByEmail(String email) throws WrongProcessingOfUserException{
+        return ExceptionUtil.checkUserNotFound(repository.getByEmail(email), "email=" + email);
     }
 }

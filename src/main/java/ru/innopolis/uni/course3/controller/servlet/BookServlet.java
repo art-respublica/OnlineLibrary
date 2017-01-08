@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import ru.innopolis.uni.course3.exception.WrongProcessingOfBookException;
 import ru.innopolis.uni.course3.model.Book;
 import ru.innopolis.uni.course3.service.BookService;
 import ru.innopolis.uni.course3.service.BookServiceImpl;
@@ -51,25 +52,37 @@ public class BookServlet extends HttpServlet {
 
             int id = getId(req);
             logger.info("BookServlet: read book with id", id);
-            Book book = service.get(id);
-            req.setAttribute("author", book.getAuthor());
-            req.setAttribute("title",  book.getTitle());
-            req.setAttribute("text", book.getText());
-            req.getRequestDispatcher("/WEB-INF/views/read.jsp").forward(req, resp);
+            try {
+                Book book = service.get(id);
+                req.setAttribute("author", book.getAuthor());
+                req.setAttribute("title",  book.getTitle());
+                req.setAttribute("text", book.getText());
+                req.getRequestDispatcher("/WEB-INF/views/read.jsp").forward(req, resp);
+            } catch (WrongProcessingOfBookException e) {
+                resp.sendRedirect("wrong");
+            }
 
         } else if ("delete".equals(action)){
 
             int id = getId(req);
             logger.info("BookServlet: delete book with id", id);
-            service.delete(id);
-            resp.sendRedirect("books");
+            try {
+                service.delete(id);
+                resp.sendRedirect("books");
+            } catch (WrongProcessingOfBookException e) {
+                resp.sendRedirect("wrong");
+            }
 
         } else if ("create".equals(action) || "update".equals(action)){
 
-            final Book book = action.equals("create") ?
-                    new Book("", "", LocalDate.now().getYear(), "") : service.get(getId(req));
-            req.setAttribute("book", book);
-            req.getRequestDispatcher("/WEB-INF/views/book.jsp").forward(req, resp);
+            try {
+                Book book = action.equals("create") ?
+                        new Book("", "", LocalDate.now().getYear(), "") : service.get(getId(req));
+                req.setAttribute("book", book);
+                req.getRequestDispatcher("/WEB-INF/views/book.jsp").forward(req, resp);
+            } catch (WrongProcessingOfBookException e) {
+                resp.sendRedirect("wrong");
+            }
         }
     }
 

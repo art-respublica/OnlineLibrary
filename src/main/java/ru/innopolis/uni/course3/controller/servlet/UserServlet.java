@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import ru.innopolis.uni.course3.exception.WrongProcessingOfUserException;
 import ru.innopolis.uni.course3.model.Role;
 import ru.innopolis.uni.course3.model.User;
 import ru.innopolis.uni.course3.service.UserService;
@@ -55,22 +56,35 @@ public class UserServlet extends HttpServlet {
 
             int id = getId(req);
             logger.info("UserServlet: delete user with id", id);
-            service.delete(id);
-            resp.sendRedirect("users");
+            try {
+                service.delete(id);
+                resp.sendRedirect("users");
+            } catch (WrongProcessingOfUserException e) {
+                resp.sendRedirect("wrong");
+            }
 
         } else if ("create".equals(action) || "update".equals(action) || "signup".equals(action) ){
 
-            final User user = action.equals("create") || "signup".equals(action) ?
-                    new User("", "", "", new Date(), false, "") : service.get(getId(req));
-            req.setAttribute("user", user);
-            req.getRequestDispatcher("/WEB-INF/views/user.jsp").forward(req, resp);
+            try {
+                User user = action.equals("create") || "signup".equals(action) ?
+                        new User("", "", "", new Date(), false, "") : service.get(getId(req));
+                req.setAttribute("user", user);
+                req.getRequestDispatcher("/WEB-INF/views/user.jsp").forward(req, resp);
+            } catch (WrongProcessingOfUserException e) {
+                resp.sendRedirect("wrong");
+            }
 
         } else if("profile".equals(action)) {
 
             String paramId = Objects.requireNonNull(req.getParameter("userId"));
-            final User user = service.get(Integer.valueOf(paramId));
-            req.setAttribute("user", user);
-            req.getRequestDispatcher("/WEB-INF/views/user.jsp").forward(req, resp);
+            final User user;
+            try {
+                user = service.get(Integer.valueOf(paramId));
+                req.setAttribute("user", user);
+                req.getRequestDispatcher("/WEB-INF/views/user.jsp").forward(req, resp);
+            } catch (WrongProcessingOfUserException e) {
+                resp.sendRedirect("wrong");
+            }
 
         } else if ("logout".equals(action)){
 
@@ -101,7 +115,11 @@ public class UserServlet extends HttpServlet {
                     req.getParameter("role"));
             logger.info("UserServlet:  " + (user.isNew() ? "create of" : "update of") + user);
             if (user.isNew()) {
-                service.add(user);
+                try {
+                    service.add(user);
+                } catch (WrongProcessingOfUserException e) {
+                    resp.sendRedirect("wrong");
+                }
             } else {
                 service.update(user);
             }
@@ -142,7 +160,12 @@ public class UserServlet extends HttpServlet {
         }
 
         // Get a user by key
-        User user = service.getByEmail(email);
+        User user = null;
+        try {
+            user = service.getByEmail(email);
+        } catch (WrongProcessingOfUserException e) {
+            return null;
+        }
 
         if (user == null){
             return null;

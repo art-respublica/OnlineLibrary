@@ -8,6 +8,9 @@
 </head>
 <body>
 <%@ include file="header.jsp" %>
+<br>
+<a href="books">Return to Books</a>
+<br>
 <h2>Users</h2>
 <a href="users/create/new">Add User</a>
 <table border="1" cellpadding="8" cellspacing="0">

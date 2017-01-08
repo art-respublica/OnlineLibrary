@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import ru.innopolis.uni.course3.exception.WrongProcessingOfUserException;
 import ru.innopolis.uni.course3.model.Role;
 import ru.innopolis.uni.course3.model.User;
 import ru.innopolis.uni.course3.service.PasswordAuthentication;
@@ -40,16 +41,24 @@ public class UserController {
 
     @GetMapping("/users/delete/{userId}")
     public String deleteById(@PathVariable Integer userId){
-        logger.info("User controller: delete user with id {}", userId);
-        service.delete(userId);
-        return "redirect:/users";
+        try {
+            logger.info("User controller: delete user with id {}", userId);
+            service.delete(userId);
+            return "redirect:/users";
+        } catch (WrongProcessingOfUserException e) {
+            return "wrong";
+        }
     }
 
     @GetMapping("/users/update/{userId}")
     public String updateById(Model model, @PathVariable Integer userId){
-        User user = service.get(userId);
-        model.addAttribute("user", user);
-        return "user";
+        try {
+            User user = service.get(userId);
+            model.addAttribute("user", user);
+            return "user";
+        } catch (WrongProcessingOfUserException e) {
+            return "wrong";
+        }
     }
 
     @GetMapping("/users/create/new")
@@ -68,10 +77,14 @@ public class UserController {
 
     @GetMapping("/users/profile/{userId}")
     public String showProfile(Model model, @PathVariable Integer userId){
-        User user = service.get(userId);
-        logger.info("User controller: user {} is watching his profile", user);
-        model.addAttribute("user", user);
-        return "user";
+        try {
+            User user = service.get(userId);
+            logger.info("User controller: user {} is watching his profile", user);
+            model.addAttribute("user", user);
+            return "user";
+        } catch (WrongProcessingOfUserException e) {
+            return "wrong";
+        }
     }
 
     @GetMapping("/users/logout")
@@ -85,14 +98,17 @@ public class UserController {
     @PostMapping("users/*/save")
     public String processEditing(@RequestParam Integer id, @RequestParam String name,
                                  @RequestParam String email, @RequestParam String password,
-                                 @RequestParam String registered, @RequestParam String enabled,
-                                 @RequestParam String role, HttpSession session) {
+                                 @RequestParam String registered, @RequestParam String role,
+                                 HttpSession session) {
 
-        Boolean enabledValue = "true".equals(enabled) ? true : false;
-        User user = new User(id, name, email, password, new Date(), enabledValue, role);
+        User user = new User(id, name, email, password, new Date(), true, role);
         logger.info("User controller:  " + (user.isNew() ? "create of/sign up " : "update of ") +  user);
         if(user.isNew() ){
-            service.add(user);
+            try {
+                service.add(user);
+            } catch (WrongProcessingOfUserException exception) {
+                return "wrong";
+            }
         } else {
             service.update(user);
         }
@@ -124,7 +140,12 @@ public class UserController {
             return null;
         }
         // Get a user by key
-        User user = service.getByEmail(email);
+        User user = null;
+        try {
+            user = service.getByEmail(email);
+        } catch (WrongProcessingOfUserException e) {
+            return null;
+        }
         if (user == null){
             return null;
         }

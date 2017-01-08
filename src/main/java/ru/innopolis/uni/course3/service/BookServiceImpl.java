@@ -4,6 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import ru.innopolis.uni.course3.exception.ExceptionUtil;
+import ru.innopolis.uni.course3.exception.WrongProcessingOfBookException;
 import ru.innopolis.uni.course3.model.Book;
 import ru.innopolis.uni.course3.repository.BookRepository;
 
@@ -34,13 +36,13 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public void delete(int id) {
-        repository.delete(id);
+    public void delete(int id) throws WrongProcessingOfBookException {
+        ExceptionUtil.checkBookNotFoundWithId(repository.delete(id), id);
     }
 
     @Override
-    public Book get(int id) {
-        return repository.get(id);
+    public Book get(int id) throws WrongProcessingOfBookException {
+        return ExceptionUtil.checkBookNotFoundWithId(repository.get(id), id);
     }
 
     @Override

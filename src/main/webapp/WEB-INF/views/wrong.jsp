@@ -7,7 +7,10 @@
     <title>Error</title>
 </head>
 <body>
-Something went wrong
+Something went wrong. Try again!
+<br>
+<br>
+<br>
 <button onclick="window.history.back()">Return</button>
 </body>
 </html>
