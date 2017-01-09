@@ -1,7 +1,12 @@
-package ru.innopolis.uni.course3;
+package ru.innopolis.uni.course3.service;
 
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import ru.innopolis.uni.course3.service.PasswordAuthentication;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
@@ -12,32 +17,34 @@ import java.security.NoSuchProviderException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 
+import static org.junit.Assert.assertTrue;
+
 /**
  *
  */
+@ContextConfiguration({
+        "classpath:spring/spring-app.xml",
+        "classpath:spring/spring-db.xml"
+})
+@RunWith(SpringJUnit4ClassRunner.class)
 public class PasswordAuthenticationTest {
 
-    public static void main(String[] args) throws NoSuchAlgorithmException, NoSuchProviderException, InvalidKeySpecException
-    {
+    private static Logger logger = LoggerFactory.getLogger(PasswordAuthenticationTest.class);
+
+    @Autowired
+    PasswordAuthentication authentication;
+
+    @Test
+    public void SaltingOfPasswordTest() {
+        logger.info("Test of salting password was running");
         String passwordToHash = "password";
-
-        PasswordAuthentication authentication = new PasswordAuthentication();
-
         String saltString = authentication.getSalt();
-        System.out.println(saltString);
-
         String generatedSecuredPasswordHash = authentication.generateStrongPasswordHash(passwordToHash, saltString);
-        System.out.println(generatedSecuredPasswordHash);
-
         boolean matched = authentication.isExpectedPassword(passwordToHash, saltString, generatedSecuredPasswordHash);
-        System.out.println(matched);
-
-        System.out.println(authentication.generateRandomPassword(8));
-
-//        System.out.println("#######################################################");
-//        checkAlgorithms(passwordToHash);
+        assertTrue("Salting of password test haven't passed", matched);
     }
 
+    @Deprecated
     private static void checkAlgorithms(String passwordToHash)  throws NoSuchAlgorithmException, NoSuchProviderException, InvalidKeySpecException {
 
         byte[] salt = getSalt();
@@ -76,7 +83,7 @@ public class PasswordAuthenticationTest {
         System.out.println(generateRandomPassword(8));
     }
 
-    //Add salt
+    @Deprecated
     private static byte[] getSalt() throws NoSuchAlgorithmException, NoSuchProviderException
     {
         //Always use a SecureRandom generator
@@ -89,6 +96,7 @@ public class PasswordAuthenticationTest {
         return salt;
     }
 
+    @Deprecated
     private static String getSecurePassword(String passwordToHash, byte[] salt)
     {
         String generatedPassword = null;
@@ -115,6 +123,7 @@ public class PasswordAuthenticationTest {
         return generatedPassword;
     }
 
+    @Deprecated
     private static String get_SHA_1_SecurePassword(String passwordToHash, byte[] salt)
     {
         String generatedPassword = null;
@@ -136,6 +145,7 @@ public class PasswordAuthenticationTest {
         return generatedPassword;
     }
 
+    @Deprecated
     private static String get_SHA_256_SecurePassword(String passwordToHash, byte[] salt)
     {
         //Use MessageDigest md = MessageDigest.getInstance("SHA-256");
@@ -158,6 +168,7 @@ public class PasswordAuthenticationTest {
         return generatedPassword;
     }
 
+    @Deprecated
     private static String get_SHA_384_SecurePassword(String passwordToHash, byte[] salt)
     {
         //Use MessageDigest md = MessageDigest.getInstance("SHA-384");
@@ -180,6 +191,7 @@ public class PasswordAuthenticationTest {
         return generatedPassword;
     }
 
+    @Deprecated
     private static String get_SHA_512_SecurePassword(String passwordToHash, byte[] salt)
     {
         //Use MessageDigest md = MessageDigest.getInstance("SHA-512");
@@ -202,6 +214,7 @@ public class PasswordAuthenticationTest {
         return generatedPassword;
     }
 
+    @Deprecated
     private static String generateStrongPasswordHash(String password) throws NoSuchAlgorithmException, InvalidKeySpecException, NoSuchProviderException
     {
         int iterations = 1000;
@@ -214,6 +227,7 @@ public class PasswordAuthenticationTest {
         return iterations + ":" + toHex(salt) + ":" + toHex(hash);
     }
 
+    @Deprecated
     private static String toHex(byte[] array) throws NoSuchAlgorithmException
     {
         BigInteger bi = new BigInteger(1, array);
@@ -227,6 +241,7 @@ public class PasswordAuthenticationTest {
         }
     }
 
+    @Deprecated
     private static boolean validatePassword(String originalPassword, String storedPassword) throws NoSuchAlgorithmException, InvalidKeySpecException
     {
         String[] parts = storedPassword.split(":");
@@ -246,6 +261,7 @@ public class PasswordAuthenticationTest {
         return diff == 0;
     }
 
+    @Deprecated
     private static byte[] fromHex(String hex) throws NoSuchAlgorithmException
     {
         byte[] bytes = new byte[hex.length() / 2];
@@ -256,6 +272,7 @@ public class PasswordAuthenticationTest {
         return bytes;
     }
 
+    @Deprecated
     public static String generateRandomPassword(int length) throws NoSuchProviderException, NoSuchAlgorithmException {
 
         SecureRandom sr = SecureRandom.getInstance("SHA1PRNG", "SUN");

@@ -34,16 +34,19 @@
             <dt>Role:</dt>
             <dd>
                 <select size="1" name="role">
-                <c:choose>
-                    <c:when test="${'ROLE_READER'.equals(user.getRole())}">
-                        <option selected value="ROLE_READER">Reader</option>
-                        <option value="ROLE_LIBRARIAN">Librarian</option>
-                    </c:when>
-                    <c:otherwise>
-                        <option selected value="ROLE_LIBRARIAN">Librarian</option>
-                        <option value="ROLE_READER">Reader</option>
-                    </c:otherwise>
-                </c:choose>
+                    <c:choose>
+                        <c:when test="${isLibrarian && 'ROLE_LIBRARIAN'.equals(user.getRole())}">
+                            <option selected value="ROLE_LIBRARIAN">Librarian</option>
+                            <option value="ROLE_READER">Reader</option>
+                        </c:when>
+                        <c:when test="${isLibrarian && 'ROLE_READER'.equals(user.getRole())}">
+                            <option selected value="ROLE_READER">Reader</option>
+                            <option value="ROLE_LIBRARIAN">Librarian</option>
+                        </c:when>
+                        <c:otherwise>
+                            <option selected value="ROLE_READER">Reader</option>
+                        </c:otherwise>
+                    </c:choose>
                 </select>
             </dd>
         </dl>

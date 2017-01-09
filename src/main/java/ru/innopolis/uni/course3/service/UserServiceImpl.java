@@ -37,7 +37,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User update(User user) {
-//        user.setPassword(authentication.generateStrongPasswordHash(user.getPassword(), user.getSalt()));
+        User userSalt = repository.get(user.getId());
+        user.setPassword(authentication.generateStrongPasswordHash(user.getPassword(), userSalt.getSalt()));
         return repository.update(user);
     }
 

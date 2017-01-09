@@ -33,10 +33,30 @@
 
     <filter>
         <filter-name>UserCheckFilter</filter-name>
-        <filter-class>ru.innopolis.uni.course3.controller.servlet.UserCheckFilter</filter-class>
+        <filter-class>ru.innopolis.uni.course3.controller.UserCheckFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>UserCheckFilter</filter-name>
+        <url-pattern>/users/*</url-pattern>
+        <url-pattern>/books/update/*</url-pattern>
+        <url-pattern>/books/delete/*</url-pattern>
+        <url-pattern>/books/create/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>encodingFilter</filter-name>
+        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+        <init-param>
+            <param-name>forceEncoding</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>encodingFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 

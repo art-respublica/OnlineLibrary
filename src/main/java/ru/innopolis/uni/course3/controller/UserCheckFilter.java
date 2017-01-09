@@ -1,4 +1,4 @@
-package ru.innopolis.uni.course3.controller.servlet;
+package ru.innopolis.uni.course3.controller;
 
 import ru.innopolis.uni.course3.model.Role;
 import ru.innopolis.uni.course3.model.User;
@@ -25,17 +25,21 @@ public class UserCheckFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
 
-        servletRequest.setCharacterEncoding("UTF-8");
+        //servletRequest.setCharacterEncoding("UTF-8");
 
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         HttpSession session = req.getSession();
         User user = (User) session.getAttribute("user");
         String path = ((HttpServletRequest) servletRequest).getServletPath();
 
-        String userId = null;
-        if( path.contains("users") && path.contains("profile") ) {
+        Integer userId = null;
+        if( path.contains("users/profile/") ) {
             String[] strings = path.split("/");
-            userId = strings[strings.length - 1];
+            try {
+                userId = Integer.parseInt(strings[strings.length - 1]);
+            } catch (NumberFormatException exception) {
+                userId = null;
+            }
         }
 
         if ( (path.contains("users")
@@ -49,19 +53,19 @@ public class UserCheckFilter implements Filter {
                 && !path.contains("logout")
                 && !path.contains("signin")
                 && !user.getRole().equals(Role.ROLE_LIBRARIAN.toString()))
+            || (path.contains("books")
+                && user != null
+                && ( path.contains("update")
+                    || path.contains("create")
+                    || path.contains("delete") )
+                && !user.getRole().equals(Role.ROLE_LIBRARIAN.toString()))
             || (user == null && userId != null)
             || (user != null && userId != null
-                && !user.getId().equals(Integer.valueOf(userId))) ){
+                && !userId.equals(user.getId())) ){
             req.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(servletRequest, servletResponse);
             return;
         }
 
         filterChain.doFilter(servletRequest, servletResponse);
     }
-
-    private Integer getId(HttpServletRequest req) {
-        String paramId = Objects.requireNonNull(req.getParameter("id"));
-        return Integer.valueOf(paramId);
-    }
-
 }
