@@ -23,7 +23,7 @@ public class ExceptionUtil {
 
     public static void checkUserNotFound(boolean found, String msg) throws WrongProcessingOfUserException {
         if (!found) {
-            throw new WrongProcessingOfUserException("Something wrong with user " + msg);
+            throw new WrongProcessingOfUserException("Rather, the user can not be found " + msg);
         }
     }
 
@@ -42,7 +42,7 @@ public class ExceptionUtil {
 
     public static void checkBookNotFound(boolean found, String msg) throws WrongProcessingOfBookException {
         if (!found) {
-            throw new WrongProcessingOfBookException("Something wrong with book " + msg);
+            throw new WrongProcessingOfBookException("Rather, the book can not be found " + msg);
         }
     }
 }

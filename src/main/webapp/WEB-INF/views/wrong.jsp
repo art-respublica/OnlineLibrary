@@ -7,7 +7,10 @@
     <title>Error</title>
 </head>
 <body>
-Something went wrong. Try again!
+Something went wrong. Try guess!
+<br>
+<br>
+<span>Hint: ${message}</span>
 <br>
 <br>
 <br>

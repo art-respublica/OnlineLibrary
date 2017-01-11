@@ -3,7 +3,7 @@ package ru.innopolis.uni.course3.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import ru.innopolis.uni.course3.exception.ExceptionUtil;
 import ru.innopolis.uni.course3.exception.WrongProcessingOfBookException;
 import ru.innopolis.uni.course3.model.Book;
@@ -12,9 +12,9 @@ import ru.innopolis.uni.course3.repository.BookRepository;
 import java.util.List;
 
 /**
- *
+ *  Implements BookService methods
  */
-@Component
+@Service
 public class BookServiceImpl implements BookService {
 
     private static final Logger logger = LoggerFactory.getLogger(BookServiceImpl.class);

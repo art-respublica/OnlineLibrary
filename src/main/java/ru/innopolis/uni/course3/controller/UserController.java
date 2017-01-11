@@ -5,10 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import ru.innopolis.uni.course3.exception.WrongProcessingOfUserException;
 import ru.innopolis.uni.course3.model.Role;
 import ru.innopolis.uni.course3.model.User;
@@ -40,12 +37,13 @@ public class UserController {
     }
 
     @GetMapping("/users/delete/{userId}")
-    public String deleteById(@PathVariable Integer userId){
+    public String deleteById(@PathVariable Integer userId, Model model){
         try {
             logger.info("User controller: delete user with id {}", userId);
             service.delete(userId);
             return "redirect:/users";
-        } catch (WrongProcessingOfUserException e) {
+        } catch (WrongProcessingOfUserException exception) {
+            model.addAttribute("message", exception.getMessage());
             return "wrong";
         }
     }
@@ -56,7 +54,8 @@ public class UserController {
             User user = service.get(userId);
             model.addAttribute("user", user);
             return "user";
-        } catch (WrongProcessingOfUserException e) {
+        } catch (WrongProcessingOfUserException exception) {
+            model.addAttribute("message", exception.getMessage());
             return "wrong";
         }
     }
@@ -82,7 +81,8 @@ public class UserController {
             logger.info("User controller: user {} is watching his profile", user);
             model.addAttribute("user", user);
             return "user";
-        } catch (WrongProcessingOfUserException e) {
+        } catch (WrongProcessingOfUserException exception) {
+            model.addAttribute("message", exception.getMessage());
             return "wrong";
         }
     }
@@ -97,16 +97,16 @@ public class UserController {
 
     @PostMapping("users/*/save")
     public String processEditing(@RequestParam Integer id, @RequestParam String name,
-                                 @RequestParam String email, @RequestParam String password,
-                                 @RequestParam String registered, @RequestParam String role,
-                                 HttpSession session) {
-
+            @RequestParam String email, @RequestParam String password,
+            @RequestParam String registered, @RequestParam String role,
+            HttpSession session, Model model) {
         User user = new User(id, name, email, password, new Date(), true, role);
         logger.info("User controller:  " + (user.isNew() ? "create of/sign up " : "update of ") +  user);
         if(user.isNew() ){
             try {
                 service.add(user);
             } catch (WrongProcessingOfUserException exception) {
+                model.addAttribute("message", exception.getMessage());
                 return "wrong";
             }
         } else {

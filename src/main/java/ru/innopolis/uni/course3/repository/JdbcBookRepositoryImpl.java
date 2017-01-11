@@ -16,7 +16,7 @@ import javax.sql.DataSource;
 import java.util.List;
 
 /**
- *
+ *  Implements BookRepository methods for the jdbc connection
  */
 @Component
 public class JdbcBookRepositoryImpl implements BookRepository {

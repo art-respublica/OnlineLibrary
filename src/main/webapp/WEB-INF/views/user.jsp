@@ -28,7 +28,7 @@
         </dl>
         <dl>
             <dt>Registered:</dt>
-            <dd><input type="datetime-local" value="${user.getRegistered()}" name="registered"></dd>
+            <dd><input type="datetime" value="${user.getRegistered()}" name="registered" readonly></dd>
         </dl>
         <dl>
             <dt>Role:</dt>
@@ -39,7 +39,7 @@
                             <option selected value="ROLE_LIBRARIAN">Librarian</option>
                             <option value="ROLE_READER">Reader</option>
                         </c:when>
-                        <c:when test="${isLibrarian && 'ROLE_READER'.equals(user.getRole())}">
+                        <c:when test="${isLibrarian}">
                             <option selected value="ROLE_READER">Reader</option>
                             <option value="ROLE_LIBRARIAN">Librarian</option>
                         </c:when>

@@ -57,7 +57,7 @@ public class JdbcUserRepositoryImpl implements UserRepository {
             user.setId(newKey.intValue());
             return user;
         } catch (Exception exception) {
-            throw new WrongProcessingOfUserException(exception.getMessage());
+            throw new WrongProcessingOfUserException("Some problems with adding of user - duplicate email");
         }
     }
 
@@ -68,12 +68,11 @@ public class JdbcUserRepositoryImpl implements UserRepository {
                 .addValue("name", user.getName())
                 .addValue("email", user.getEmail())
                 .addValue("password", user.getPassword())
-                .addValue("registered", user.getRegistered())
                 .addValue("enabled", user.isEnabled())
                 .addValue("role", user.getRole());
         namedParameterJdbcTemplate.update(
                 "UPDATE users SET name=:name, email=:email, password=:password, " +
-                        "registered=:registered, enabled=:enabled, role=:role WHERE id=:id", map);
+                        "enabled=:enabled, role=:role WHERE id=:id", map);
         return user;
     }
 

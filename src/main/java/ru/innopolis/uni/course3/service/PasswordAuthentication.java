@@ -12,7 +12,7 @@ import java.util.Arrays;
 import java.util.Random;
 
 /**
- *
+ *  Contains a set of methods of working with password: hashing, salting and password checking
  */
 @Service
 public final class PasswordAuthentication {
@@ -25,6 +25,11 @@ public final class PasswordAuthentication {
     public PasswordAuthentication() {
     }
 
+    /**
+     *  Gets the random salt
+     *
+     *  @return String  salt in hex
+     */
     public String getSalt()
     {
         byte[] salt = new byte[16];    //Create array for salt
@@ -32,6 +37,11 @@ public final class PasswordAuthentication {
         return toHex(salt);
     }
 
+    /**
+     *  Hashes and salts password
+     *
+     *  @return String  hashed password in hex
+     */
     public String generateStrongPasswordHash(String password, String salt)
     {
         char[] passwordChars = password.toCharArray();
@@ -48,6 +58,11 @@ public final class PasswordAuthentication {
         }
     }
 
+    /**
+     *  Checks accordance of the password and the stored hash
+     *
+     *  @return boolean  true - if password is in accordance of the stored hash, false - otherwise
+     */
     public boolean isExpectedPassword(String password, String salt, String storedPasswordHash)
     {
         char[] passwordChars = password.toCharArray();
@@ -69,6 +84,11 @@ public final class PasswordAuthentication {
         }
     }
 
+    /**
+     *  Gets the random password
+     *
+     *  @return String  random password
+     */
     public String generateRandomPassword(int length)
     {
         StringBuilder sb = new StringBuilder(length);

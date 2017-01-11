@@ -5,10 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import ru.innopolis.uni.course3.exception.WrongProcessingOfBookException;
 import ru.innopolis.uni.course3.model.Book;
 import ru.innopolis.uni.course3.service.BookService;
@@ -43,18 +40,20 @@ public class BookController {
             model.addAttribute("title", book.getTitle());
             model.addAttribute("text", book.getText());
             return "read";
-        } catch (WrongProcessingOfBookException e) {
+        } catch (WrongProcessingOfBookException exception) {
+            model.addAttribute("message", exception.getMessage());
             return "wrong";
         }
     }
 
     @GetMapping("/books/delete/{bookId}")
-    public String deleteById(@PathVariable Integer bookId){
+    public String deleteById(@PathVariable Integer bookId, Model model){
         logger.info("Book controller: delete book with id", bookId);
         try {
             service.delete(bookId);
             return "redirect:/books";
-        } catch (WrongProcessingOfBookException e) {
+        } catch (WrongProcessingOfBookException exception) {
+            model.addAttribute("message", exception.getMessage());
             return "wrong";
         }
     }
@@ -65,7 +64,8 @@ public class BookController {
             Book book = service.get(bookId);
             model.addAttribute("book", book);
             return "book";
-        } catch (WrongProcessingOfBookException e) {
+        } catch (WrongProcessingOfBookException exception) {
+            model.addAttribute("message", exception.getMessage());
             return "wrong";
         }
     }
@@ -78,11 +78,7 @@ public class BookController {
     }
 
     @PostMapping("books/*/save")
-    public String processEditing(@RequestParam Integer id, @RequestParam String author,
-                                 @RequestParam String title, @RequestParam Integer year,
-                                 @RequestParam String text) {
-
-        Book book = new Book(id, author, title, year, text);
+    public String processEditing(@ModelAttribute("book") Book book) {
         logger.info("Book controller:  " + (book.isNew() ? "create of" : "update of") +  book);
         if(book.isNew() ){
             service.add(book);
