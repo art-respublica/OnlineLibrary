@@ -23,11 +23,17 @@ public class UserController {
 
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
-    @Autowired
     private UserService service;
 
-    @Autowired
     private PasswordAuthentication authentication;
+
+    public UserController() {
+    }
+
+    public UserController(UserService service, PasswordAuthentication authentication) {
+        this.service = service;
+        this.authentication = authentication;
+    }
 
     @GetMapping("/users")
     public String showList(Model model){
@@ -37,27 +43,17 @@ public class UserController {
     }
 
     @GetMapping("/users/delete/{userId}")
-    public String deleteById(@PathVariable Integer userId, Model model){
-        try {
-            logger.info("User controller: delete user with id {}", userId);
-            service.delete(userId);
-            return "redirect:/users";
-        } catch (WrongProcessingOfUserException exception) {
-            model.addAttribute("message", exception.getMessage());
-            return "wrong";
-        }
+    public String deleteById(@PathVariable Integer userId, Model model) throws WrongProcessingOfUserException {
+        logger.info("User controller: delete user with id {}", userId);
+        service.delete(userId);
+        return "redirect:/users";
     }
 
     @GetMapping("/users/update/{userId}")
-    public String updateById(Model model, @PathVariable Integer userId){
-        try {
-            User user = service.get(userId);
-            model.addAttribute("user", user);
-            return "user";
-        } catch (WrongProcessingOfUserException exception) {
-            model.addAttribute("message", exception.getMessage());
-            return "wrong";
-        }
+    public String updateById(Model model, @PathVariable Integer userId) throws WrongProcessingOfUserException {
+        User user = service.get(userId);
+        model.addAttribute("user", user);
+        return "user";
     }
 
     @GetMapping("/users/create/new")
@@ -75,16 +71,11 @@ public class UserController {
     }
 
     @GetMapping("/users/profile/{userId}")
-    public String showProfile(Model model, @PathVariable Integer userId){
-        try {
-            User user = service.get(userId);
-            logger.info("User controller: user {} is watching his profile", user);
-            model.addAttribute("user", user);
-            return "user";
-        } catch (WrongProcessingOfUserException exception) {
-            model.addAttribute("message", exception.getMessage());
-            return "wrong";
-        }
+    public String showProfile(Model model, @PathVariable Integer userId) throws WrongProcessingOfUserException {
+        User user = service.get(userId);
+        logger.info("User controller: user {} is watching his profile", user);
+        model.addAttribute("user", user);
+        return "user";
     }
 
     @GetMapping("/users/logout")
@@ -99,16 +90,11 @@ public class UserController {
     public String processEditing(@RequestParam Integer id, @RequestParam String name,
             @RequestParam String email, @RequestParam String password,
             @RequestParam String registered, @RequestParam String role,
-            HttpSession session, Model model) {
+            HttpSession session, Model model) throws WrongProcessingOfUserException {
         User user = new User(id, name, email, password, new Date(), true, role);
         logger.info("User controller:  " + (user.isNew() ? "create of/sign up " : "update of ") +  user);
         if(user.isNew() ){
-            try {
-                service.add(user);
-            } catch (WrongProcessingOfUserException exception) {
-                model.addAttribute("message", exception.getMessage());
-                return "wrong";
-            }
+            service.add(user);
         } else {
             service.update(user);
         }
@@ -121,31 +107,27 @@ public class UserController {
 
     @PostMapping("users/signin")
     public String processEditing(@RequestParam String email, @RequestParam String password,
-                                 HttpSession session) {
+                                 HttpSession session) throws WrongProcessingOfUserException {
         User user = validateLogin(email, password);
         if (user == null){
             return "login-error";
         } else {
             logger.info("User controller: sing in user with email {}", email);
             session.setAttribute("user", user);
-            session.setAttribute("isLibrarian", user.getRole().equals(Role.ROLE_LIBRARIAN.toString()));
+            session.setAttribute("isLibrarian", user.getRole().equals(Role.ROLE_USER.toString()));
             return "redirect:/books";
         }
     }
 
-    private User validateLogin(String email, String password) {
+    private User validateLogin(String email, String password) throws WrongProcessingOfUserException {
 
         // All parameters must be valid
         if (email == null || password == null){
             return null;
         }
         // Get a user by key
-        User user = null;
-        try {
-            user = service.getByEmail(email);
-        } catch (WrongProcessingOfUserException e) {
-            return null;
-        }
+        User user = service.getByEmail(email);
+
         if (user == null){
             return null;
         }

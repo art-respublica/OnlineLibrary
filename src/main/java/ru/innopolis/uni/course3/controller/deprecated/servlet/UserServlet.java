@@ -1,4 +1,4 @@
-package ru.innopolis.uni.course3.controller.servlet;
+package ru.innopolis.uni.course3.controller.deprecated.servlet;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,7 +36,7 @@ public class UserServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         super.init();
-        springContext = new ClassPathXmlApplicationContext("spring/spring-app.xml", "spring/spring-db.xml");
+        springContext = new ClassPathXmlApplicationContext("META-INF/spring/spring-app.xml", "META-INF/spring/spring-db.xml");
         service = springContext.getBean(UserServiceImpl.class);
     }
 
@@ -141,7 +141,7 @@ public class UserServlet extends HttpServlet {
                 logger.info("UserServlet: sing in user with email", email);
                 HttpSession session = req.getSession();
                 session.setAttribute("user", user);
-                session.setAttribute("isLibrarian", user.getRole().equals(Role.ROLE_LIBRARIAN.toString()));
+                session.setAttribute("isLibrarian", user.getRole().equals(Role.ROLE_USER.toString()));
                 resp.sendRedirect("books");
             }
         }

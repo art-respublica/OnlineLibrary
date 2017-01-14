@@ -7,7 +7,9 @@
          http://www.springframework.org/schema/context
          http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <context:component-scan base-package="ru.innopolis.uni.course3.repository"/>
+    <!--<context:component-scan base-package="ru.innopolis.uni.course3.repository"/>-->
+    <bean id="BookRepository" class="ru.innopolis.uni.course3.repository.JdbcBookRepositoryImpl"/>
+    <bean id="UserRepository" class="ru.innopolis.uni.course3.repository.JdbcUserRepositoryImpl" />
 
     <context:property-placeholder location="classpath:db/postgres.properties" system-properties-mode="OVERRIDE"/>
 

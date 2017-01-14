@@ -10,6 +10,7 @@ import ru.innopolis.uni.course3.model.User;
 import ru.innopolis.uni.course3.repository.UserRepository;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  *  Implements UserService methods
@@ -19,17 +20,24 @@ public class UserServiceImpl implements UserService {
 
     private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
-    @Autowired
     private UserRepository repository;
 
-    @Autowired
     private PasswordAuthentication authentication;
 
     public UserServiceImpl() {
     }
 
+    public UserServiceImpl(UserRepository repository, PasswordAuthentication authentication) {
+        this.repository = repository;
+        this.authentication = authentication;
+    }
+
     @Override
     public User add(User user) throws WrongProcessingOfUserException {
+        if(user.getEmail() == null || user.getName() == null ||
+            user.getEmail().isEmpty() || user.getName().isEmpty()) {
+            throw new WrongProcessingOfUserException("Some problems with adding of user - empty email or name");
+        }
         user.setSalt(authentication.getSalt());
         user.setPassword(authentication.generateStrongPasswordHash(user.getPassword(), user.getSalt()));
         return repository.add(user);
@@ -43,7 +51,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void delete(int id) throws WrongProcessingOfUserException{
+    public void delete(int id) throws WrongProcessingOfUserException {
         ExceptionUtil.checkUserNotFoundWithId(repository.delete(id), id);
     }
 

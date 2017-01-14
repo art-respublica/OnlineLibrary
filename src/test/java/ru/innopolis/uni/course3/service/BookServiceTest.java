@@ -22,8 +22,8 @@ import java.util.List;
  *
  */
 @ContextConfiguration({
-        "classpath:spring/spring-app.xml",
-        "classpath:spring/spring-db.xml"
+        "file:src/main/webapp/META-INF/spring/spring-app.xml",
+        "file:src/main/webapp/META-INF/spring/spring-db.xml"
 })
 @RunWith(SpringJUnit4ClassRunner.class)
 @Sql(scripts = "classpath:db/populatedb_postgres.sql", config = @SqlConfig(encoding = "UTF-8"))

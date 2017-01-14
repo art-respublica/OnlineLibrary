@@ -12,7 +12,14 @@
 
     <mvc:annotation-driven/>
 
-    <context:component-scan base-package="ru.innopolis.uni.course3.controller"/>
+    <!--<context:component-scan base-package="ru.innopolis.uni.course3.controller"/>-->
+    <bean id="BookController" class="ru.innopolis.uni.course3.controller.BookController">
+        <constructor-arg ref="BookService"/>
+    </bean>
+    <bean id="UserController" class="ru.innopolis.uni.course3.controller.UserController">
+        <constructor-arg index="0" ref="UserService"/>
+        <constructor-arg index="1" ref="PasswordAuthentication"/>
+    </bean>
 
     <mvc:resources mapping="/resources/**" location="/resources/"/>
 

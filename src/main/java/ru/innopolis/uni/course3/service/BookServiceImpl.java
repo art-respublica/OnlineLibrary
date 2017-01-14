@@ -19,10 +19,13 @@ public class BookServiceImpl implements BookService {
 
     private static final Logger logger = LoggerFactory.getLogger(BookServiceImpl.class);
 
-    @Autowired
     private BookRepository repository;
 
     public BookServiceImpl() {
+    }
+
+    public BookServiceImpl(BookRepository repository) {
+        this.repository = repository;
     }
 
     @Override

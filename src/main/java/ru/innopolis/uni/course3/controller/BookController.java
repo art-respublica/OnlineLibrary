@@ -20,8 +20,14 @@ public class BookController {
 
     private static final Logger logger = LoggerFactory.getLogger(BookController.class);
 
-    @Autowired
     private BookService service;
+
+    public BookController() {
+    }
+
+    public BookController(BookService service) {
+        this.service = service;
+    }
 
     @GetMapping("/books")
     public String showList(Model model){
@@ -31,43 +37,27 @@ public class BookController {
     }
 
     @GetMapping("/books/read/{bookId}")
-    public String readById(Model model, @PathVariable Integer bookId){
+    public String readById(Model model, @PathVariable Integer bookId) throws WrongProcessingOfBookException {
         logger.info("Book controller: read book with id", bookId);
-
-        try {
-            Book book = service.get(bookId);
-            model.addAttribute("author", book.getAuthor());
-            model.addAttribute("title", book.getTitle());
-            model.addAttribute("text", book.getText());
-            return "read";
-        } catch (WrongProcessingOfBookException exception) {
-            model.addAttribute("message", exception.getMessage());
-            return "wrong";
-        }
+        Book book = service.get(bookId);
+        model.addAttribute("author", book.getAuthor());
+        model.addAttribute("title", book.getTitle());
+        model.addAttribute("text", book.getText());
+        return "read";
     }
 
     @GetMapping("/books/delete/{bookId}")
-    public String deleteById(@PathVariable Integer bookId, Model model){
+    public String deleteById(@PathVariable Integer bookId, Model model) throws WrongProcessingOfBookException {
         logger.info("Book controller: delete book with id", bookId);
-        try {
-            service.delete(bookId);
-            return "redirect:/books";
-        } catch (WrongProcessingOfBookException exception) {
-            model.addAttribute("message", exception.getMessage());
-            return "wrong";
-        }
+        service.delete(bookId);
+        return "redirect:/books";
     }
 
     @GetMapping("/books/update/{bookId}")
-    public String updateById(Model model, @PathVariable Integer bookId){
-        try {
-            Book book = service.get(bookId);
-            model.addAttribute("book", book);
-            return "book";
-        } catch (WrongProcessingOfBookException exception) {
-            model.addAttribute("message", exception.getMessage());
-            return "wrong";
-        }
+    public String updateById(Model model, @PathVariable Integer bookId) throws WrongProcessingOfBookException {
+        Book book = service.get(bookId);
+        model.addAttribute("book", book);
+        return "book";
     }
 
     @GetMapping("/books/create/new")

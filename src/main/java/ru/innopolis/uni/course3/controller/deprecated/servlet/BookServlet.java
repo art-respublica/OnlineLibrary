@@ -1,4 +1,4 @@
-package ru.innopolis.uni.course3.controller.servlet;
+package ru.innopolis.uni.course3.controller.deprecated.servlet;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,7 +32,7 @@ public class BookServlet extends HttpServlet {
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        springContext = new ClassPathXmlApplicationContext("spring/spring-app.xml", "spring/spring-db.xml");
+        springContext = new ClassPathXmlApplicationContext("META-INF/spring/spring-app.xml", "META-INF/spring/spring-db.xml");
         service = springContext.getBean(BookServiceImpl.class);
     }
 

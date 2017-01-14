@@ -1,20 +1,18 @@
-package ru.innopolis.uni.course3.controller;
+package ru.innopolis.uni.course3.controller.deprecated;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 
 /**
  *
  */
-@Controller
+@Deprecated
+//@Controller
 public class StartController {
 
     private static final Logger logger = LoggerFactory.getLogger(StartController.class);
 
-    @GetMapping("/")
+//    @GetMapping("/")
     public String redirectToBooks(){
         logger.info("Start controller: redirect to books");
         return "redirect:/books";
