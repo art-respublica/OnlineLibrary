@@ -1,6 +1,8 @@
 package ru.innopolis.uni.course3.model;
 
 import java.util.Date;
+import java.util.EnumSet;
+import java.util.Set;
 
 /**
  *
@@ -14,28 +16,31 @@ public class User {
     private String salt;
     private Date registered = new Date();
     private boolean enabled = true;
-    private String role;
+    private Set<Role> roles;
 
     public User() {
     }
 
     public User(User u) {
-        this(u.getId(), u.getName(), u.getEmail(), u.getPassword(), u.getRegistered(), u.isEnabled(), u.getRole());
+        this(u.getId(), u.getName(), u.getEmail(), u.getPassword(), u.getRegistered(), u.isEnabled(), u.getRoles());
     }
 
-    public User(String name, String email, String password, Date registered, boolean enabled, String role) {
-        this(null, name, email, password, registered, enabled, role);
+    public User(String name, String email, String password, Date registered, boolean enabled, Set<Role> roles) {
+        this(null, name, email, password, registered, enabled, roles);
     }
 
-    public User(Integer id, String name, String email, String password, Date registered, boolean enabled, String role) {
+    public User(Integer id, String name, String email, String password, Date registered, boolean enabled, Role role, Role... roles) {
+        this(id, name, email, password, registered, enabled, EnumSet.of(role, roles));
+    }
+
+    public User(Integer id, String name, String email, String password, Date registered, boolean enabled, Set<Role> roles) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
-        this.salt = salt;
         this.registered = registered;
         this.enabled = enabled;
-        this.role = role;
+        this.roles = roles;
     }
 
     public Integer getId() {
@@ -98,12 +103,20 @@ public class User {
         this.enabled = enabled;
     }
 
-    public String getRole() {
-        return role;
+    public Set<Role> getRoles() {
+        return roles;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public boolean isAdmin(){
+        boolean isAdmin = false;
+        if (roles != null) {
+            isAdmin = roles.contains(Role.ROLE_ADMIN);
+        }
+        return isAdmin;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
     @Override

@@ -14,6 +14,9 @@
         <constructor-arg ref="BookRepository"/>
     </bean>
     <bean id="PasswordAuthentication" class="ru.innopolis.uni.course3.service.PasswordAuthentication" />
+    <bean id="myUserDetailsService" class="ru.innopolis.uni.course3.service.UserDetailsServiceImpl">
+        <constructor-arg ref="UserRepository"/>
+    </bean>
     <bean id="UserService" class="ru.innopolis.uni.course3.service.UserServiceImpl">
         <constructor-arg index="0" ref="UserRepository"/>
         <constructor-arg index="1" ref="PasswordAuthentication"/>

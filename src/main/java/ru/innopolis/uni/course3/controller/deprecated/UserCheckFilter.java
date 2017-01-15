@@ -1,4 +1,4 @@
-package ru.innopolis.uni.course3.controller;
+package ru.innopolis.uni.course3.controller.deprecated;
 
 import ru.innopolis.uni.course3.model.Role;
 import ru.innopolis.uni.course3.model.User;
@@ -7,11 +7,11 @@ import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.Objects;
 
 /**
  *
  */
+@Deprecated
 public class UserCheckFilter implements Filter {
 
     @Override
@@ -52,13 +52,13 @@ public class UserCheckFilter implements Filter {
                 && !path.contains("save")
                 && !path.contains("logout")
                 && !path.contains("signin")
-                && !user.getRole().equals(Role.ROLE_LIBRARIAN.toString()))
+                && !user.getRoles().contains(Role.ROLE_USER.toString()))
             || (path.contains("books")
                 && user != null
                 && ( path.contains("update")
                     || path.contains("create")
                     || path.contains("delete") )
-                && !user.getRole().equals(Role.ROLE_LIBRARIAN.toString()))
+                && !user.getRoles().contains(Role.ROLE_USER.toString()))
             || (user == null && userId != null)
             || (user != null && userId != null
                 && !userId.equals(user.getId())) ){

@@ -92,14 +92,9 @@ public class UserServiceTest {
     }
 
     @Test
-    public void getByEmailTest() throws WrongProcessingOfUserException {
+    public void getByEmailTest() {
         User actual = service.getByEmail("reader@onlinelibrary.ru");
         Assert.assertEquals("Test of get user haven't passed", as(READER), as(actual));
-    }
-
-    @Test(expected = WrongProcessingOfUserException.class)
-    public void getByNotExistEmailTest() throws Exception {
-        service.getByEmail("reader2@onlinelibrary.ru");
     }
 
 }

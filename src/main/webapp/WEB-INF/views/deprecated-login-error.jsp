@@ -7,13 +7,7 @@
     <title>Error</title>
 </head>
 <body>
-Something went wrong. Try guess!
-<br>
-<br>
-<span>Hint: ${message}</span>
-<br>
-<br>
-<br>
+Wrong user/password
 <button onclick="window.history.back()">Return</button>
 </body>
 </html>

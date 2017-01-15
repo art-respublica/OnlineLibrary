@@ -1,6 +1,9 @@
 package ru.innopolis.uni.course3.service;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
@@ -10,6 +13,7 @@ import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.util.Arrays;
 import java.util.Random;
+import java.util.regex.Pattern;
 
 /**
  *  Contains a set of methods of working with password: hashing, salting and password checking
@@ -22,7 +26,41 @@ public final class PasswordAuthentication {
     private final int iterations = 10000;
     private final int keyLength = 256;
 
+    public static final PasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
+    private static final Pattern BCRYPT_PATTERN = Pattern.compile("\\A\\$2a?\\$\\d\\d\\$[./0-9A-Za-z]{53}");
+
     public PasswordAuthentication() {
+    }
+
+    public static PasswordEncoder getPasswordEncoder() {
+        return PASSWORD_ENCODER;
+    }
+
+    public static String encode(String newPassword) {
+        if (StringUtils.isEmpty(newPassword)) {
+            return null;
+        }
+        if (isEncoded(newPassword)) {
+            return newPassword;
+        }
+        return PASSWORD_ENCODER.encode(newPassword);
+    }
+
+    public static boolean isMatch(String rawPassword, String password) {
+        return PASSWORD_ENCODER.matches(rawPassword, password);
+    }
+
+    public static boolean isEncoded(String newPassword) {
+        return BCRYPT_PATTERN.matcher(newPassword).matches();
+    }
+
+    private boolean comparePassword(String rawOrEncodedPassword, String password) {
+        if (isEncoded(rawOrEncodedPassword)) {
+            return rawOrEncodedPassword.equals(password);
+        } else if (!isMatch(rawOrEncodedPassword, password)) {
+            return false;
+        }
+        return true;
     }
 
     /**

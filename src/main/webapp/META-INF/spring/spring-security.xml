@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/security
+        http://www.springframework.org/schema/security/spring-security.xsd">
+
+    <security:global-method-security secured-annotations="enabled"/>
+
+    <security:http auto-config="true" use-expressions="true">
+
+        <security:access-denied-handler error-page="/WEB-INF/views/access-denied.jsp" />
+
+        <security:intercept-url pattern="/index.jsp" access="permitAll"/>
+
+        <security:intercept-url pattern="/login" access="permitAll"/>
+        <security:intercept-url pattern="/login-error" access="permitAll"/>
+
+        <security:intercept-url pattern="/users/signin" access="permitAll"/>
+        <security:intercept-url pattern="/users/signup/new" access="permitAll"/>
+        <security:intercept-url pattern="/users/profile" access="isAuthenticated()"/>
+        <security:intercept-url pattern="/users/logout" access="isAuthenticated()"/>
+
+        <security:intercept-url pattern="/books" access="permitAll"/>
+        <security:intercept-url pattern="/books/read/*" access="permitAll"/>
+        <security:intercept-url pattern="/books/delete/*" access="hasRole('ROLE_ADMIN')"/>
+        <security:intercept-url pattern="/books/update/*" access="hasRole('ROLE_ADMIN')"/>
+        <security:intercept-url pattern="/books/create/*" access="hasRole('ROLE_ADMIN')"/>
+        <security:intercept-url pattern="/books/*/save" access="hasRole('ROLE_ADMIN')"/>
+
+        <security:intercept-url pattern="/users" access="hasRole('ROLE_ADMIN')"/>
+        <security:intercept-url pattern="/users/delete/*" access="hasRole('ROLE_ADMIN')"/>
+        <security:intercept-url pattern="/users/update/*" access="hasRole('ROLE_ADMIN')"/>
+        <security:intercept-url pattern="/users/create/*" access="hasRole('ROLE_ADMIN')"/>
+
+        <security:intercept-url pattern="/users/create/save" access="hasRole('ROLE_ADMIN')"/>
+        <security:intercept-url pattern="/users/update/save" access="hasRole('ROLE_ADMIN')"/>
+        <security:intercept-url pattern="/users/signup/save" access="permitAll"/>
+
+<!--        <security:form-login login-page="/login"
+                default-target-url="/books"
+                authentication-failure-url="/login?error=true"
+                login-processing-url="/users/singin"/>-->
+
+        <security:anonymous username="guest" granted-authority="ROLE_ANONYMOUS"/>
+        <security:remember-me/>
+        <security:csrf disabled="false"/>
+    </security:http>
+
+    <bean class="ru.innopolis.uni.course3.service.PasswordAuthentication"
+          id="passwordEncoder" factory-method="getPasswordEncoder"/>
+
+    <security:authentication-manager>
+        <security:authentication-provider user-service-ref="myUserDetailsService">
+            <security:password-encoder ref="passwordEncoder"/>
+         </security:authentication-provider>
+    </security:authentication-manager>
+
+</beans>

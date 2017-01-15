@@ -19,7 +19,6 @@
         </param-value>
     </context-param>
 
-    <!-- Spring MVC -->
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
@@ -37,27 +36,6 @@
     </servlet-mapping>
 
     <filter>
-        <filter-name>UserCheckFilter</filter-name>
-        <filter-class>ru.innopolis.uni.course3.controller.UserCheckFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>UserCheckFilter</filter-name>
-        <url-pattern>/users/*</url-pattern>
-        <url-pattern>/books/update/*</url-pattern>
-        <url-pattern>/books/delete/*</url-pattern>
-        <url-pattern>/books/create/*</url-pattern>
-    </filter-mapping>
-
-<!--    <filter>
-        <filter-name>springSecurityFilterChain</filter-name>
-        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>springSecurityFilterChain</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>-->
-
-    <filter>
         <filter-name>encodingFilter</filter-name>
         <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
         <init-param>
@@ -71,6 +49,15 @@
     </filter>
     <filter-mapping>
         <filter-name>encodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>springSecurityFilterChain</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 

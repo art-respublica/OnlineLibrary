@@ -1,6 +1,7 @@
 package ru.innopolis.uni.course3;
 
 import ru.innopolis.uni.course3.model.Book;
+import ru.innopolis.uni.course3.model.Role;
 import ru.innopolis.uni.course3.model.User;
 
 import java.util.*;
@@ -16,8 +17,8 @@ public class TestData {
     public static final int LIBRARIAN_ID = START_GLOBAL_SEQ + 1;
     public static final int BOOK1_ID = START_GLOBAL_SEQ + 2;
 
-    public static final User READER = new User(READER_ID, "Reader", "reader@onlinelibrary.ru", "cb6e5c605babf1dbe9dff5b2bff4ae945c1b4dc3fb080b97b8736125b54789a3", new Date(), true, "ROLE_READER");
-    public static final User LIBRARIAN = new User(LIBRARIAN_ID, "Librarian", "librarian@onlinelibrary.ru", "d18aca8b42c65fe39edc3c376a97e7baccc62bfe418fc63fb2b0dac9c54c01fe", new Date(), true, "ROLE_LIBRARIAN");
+    public static final User READER = new User(READER_ID, "Reader", "reader@onlinelibrary.ru", "cb6e5c605babf1dbe9dff5b2bff4ae945c1b4dc3fb080b97b8736125b54789a3", new Date(), true, Role.ROLE_USER);
+    public static final User LIBRARIAN = new User(LIBRARIAN_ID, "Librarian", "librarian@onlinelibrary.ru", "d18aca8b42c65fe39edc3c376a97e7baccc62bfe418fc63fb2b0dac9c54c01fe", new Date(), true, Role.ROLE_ADMIN);
 
     public static final Book BOOK1 = new Book(BOOK1_ID, "Шарль Перро", "Кот в сапогах", 2014, "Было у мельника три сына, и оставил он им, умирая, всего только мельницу, осла и кота...");
     public static final Book BOOK2 = new Book(BOOK1_ID + 1, "Шарль Перро", "Золушка", 2015, "Жил-был один почтенный и знатный человек. Первая жена его умерла, и он женился во второй раз...");
@@ -40,11 +41,11 @@ public class TestData {
     }
 
     public static User getCreatedUser() {
-        return new User(null, "Reader #2", "reader2@onlinelibrary.ru", "password", new Date(), true, "ROLE_READER");
+        return new User(null, "Reader #2", "reader2@onlinelibrary.ru", "password", new Date(), true, Role.ROLE_USER);
     }
 
     public static User getUpdatedUser() {
-        return new User(READER_ID, "Reader #2", "reader2@onlinelibrary.ru", "password", new Date(), true, "ROLE_READER");
+        return new User(READER_ID, "Reader #2", "reader2@onlinelibrary.ru", "password", new Date(), true, Role.ROLE_USER);
     }
 
     private static final Comparator DEFAULT_COMPARATOR =

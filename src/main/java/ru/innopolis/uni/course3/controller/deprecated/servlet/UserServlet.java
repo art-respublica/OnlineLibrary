@@ -67,7 +67,7 @@ public class UserServlet extends HttpServlet {
 
             try {
                 User user = action.equals("create") || "signup".equals(action) ?
-                        new User("", "", "", new Date(), false, "") : service.get(getId(req));
+                        new User("", "", "", new Date(), false, null) : service.get(getId(req));
                 req.setAttribute("user", user);
                 req.getRequestDispatcher("/WEB-INF/views/user.jsp").forward(req, resp);
             } catch (WrongProcessingOfUserException e) {
@@ -112,7 +112,7 @@ public class UserServlet extends HttpServlet {
                     req.getParameter("password"),
                     null,
                     "true".equals(req.getParameter("enabled")) ? true : false,
-                    req.getParameter("role"));
+                    Role.valueOf(req.getParameter("role")));
             logger.info("UserServlet:  " + (user.isNew() ? "create of" : "update of") + user);
             if (user.isNew()) {
                 try {
@@ -136,12 +136,12 @@ public class UserServlet extends HttpServlet {
             String password = req.getParameter("password");
             User user = validateLogin(email, password);
             if (user == null){
-                req.getRequestDispatcher("/WEB-INF/views/login-error.jsp").forward(req, resp);
+                req.getRequestDispatcher("/WEB-INF/views/deprecated-login-error.jsp").forward(req, resp);
             } else {
                 logger.info("UserServlet: sing in user with email", email);
                 HttpSession session = req.getSession();
                 session.setAttribute("user", user);
-                session.setAttribute("isLibrarian", user.getRole().equals(Role.ROLE_USER.toString()));
+                session.setAttribute("isLibrarian", user.getRoles().contains(Role.ROLE_USER.toString()));
                 resp.sendRedirect("books");
             }
         }
@@ -160,13 +160,7 @@ public class UserServlet extends HttpServlet {
         }
 
         // Get a user by key
-        User user = null;
-        try {
-            user = service.getByEmail(email);
-        } catch (WrongProcessingOfUserException e) {
-            return null;
-        }
-
+        User   user = service.getByEmail(email);
         if (user == null){
             return null;
         }

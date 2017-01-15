@@ -1,4 +1,4 @@
-
+<%--<!DOCTYPE html>--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -13,6 +13,7 @@
     <hr>
     <jsp:useBean id="book" type="ru.innopolis.uni.course3.model.Book" scope="request"/>
     <form method="post" action="save">
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
         <input type="hidden" name="id" value="${book.getId()}">
         <dl>
             <dt>Author:</dt>

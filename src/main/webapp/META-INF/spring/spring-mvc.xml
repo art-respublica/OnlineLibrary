@@ -19,7 +19,9 @@
     <bean id="UserController" class="ru.innopolis.uni.course3.controller.UserController">
         <constructor-arg index="0" ref="UserService"/>
         <constructor-arg index="1" ref="PasswordAuthentication"/>
+        <constructor-arg index="2" ref="myUserDetailsService"/>
     </bean>
+    <bean id="ExceptionHandlingController" class="ru.innopolis.uni.course3.controller.ExceptionHandlingController" />
 
     <mvc:resources mapping="/resources/**" location="/resources/"/>
 

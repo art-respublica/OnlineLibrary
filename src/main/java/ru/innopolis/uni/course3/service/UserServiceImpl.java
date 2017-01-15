@@ -2,7 +2,6 @@ package ru.innopolis.uni.course3.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.innopolis.uni.course3.exception.ExceptionUtil;
 import ru.innopolis.uni.course3.exception.WrongProcessingOfUserException;
@@ -10,7 +9,6 @@ import ru.innopolis.uni.course3.model.User;
 import ru.innopolis.uni.course3.repository.UserRepository;
 
 import java.util.List;
-import java.util.Objects;
 
 /**
  *  Implements UserService methods
@@ -66,7 +64,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getByEmail(String email) throws WrongProcessingOfUserException{
-        return ExceptionUtil.checkUserNotFound(repository.getByEmail(email), "email=" + email);
+    public User getByEmail(String email) {
+        return repository.getByEmail(email);
     }
 }

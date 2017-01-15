@@ -15,7 +15,8 @@ public class SpringContextStartTest {
 
         try (GenericXmlApplicationContext appCtx = new GenericXmlApplicationContext()) {
             appCtx.load("file:src/main/webapp/META-INF/spring/spring-app.xml",
-                    "file:src/main/webapp/META-INF/spring/spring-db.xml");
+                    "file:src/main/webapp/META-INF/spring/spring-db.xml",
+                    "file:src/main/webapp/META-INF/spring/spring-security.xml");
             appCtx.refresh();
 
             System.out.println("Bean definition names: " + Arrays.toString(appCtx.getBeanDefinitionNames()));

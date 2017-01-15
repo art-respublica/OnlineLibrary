@@ -54,5 +54,5 @@ public interface UserService {
      *  @param  email   email, which uses for user search
      *  @return User    user, which was found or null if not found
      */
-    User getByEmail(String email) throws WrongProcessingOfUserException;
+    User getByEmail(String email);
 }

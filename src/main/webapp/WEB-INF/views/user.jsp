@@ -1,6 +1,7 @@
-
+<%--<!DOCTYPE html>--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <html>
 <head>
@@ -34,24 +35,27 @@
             <dt>Role:</dt>
             <dd>
                 <select size="1" name="role">
-                    <c:choose>
-                        <c:when test="${isLibrarian && 'ROLE_LIBRARIAN'.equals(user.getRole())}">
-                            <option selected value="ROLE_LIBRARIAN">Librarian</option>
-                            <option value="ROLE_READER">Reader</option>
-                        </c:when>
-                        <c:when test="${isLibrarian}">
-                            <option selected value="ROLE_READER">Reader</option>
-                            <option value="ROLE_LIBRARIAN">Librarian</option>
-                        </c:when>
-                        <c:otherwise>
-                            <option selected value="ROLE_READER">Reader</option>
-                        </c:otherwise>
-                    </c:choose>
+                    <sec:authorize access="hasRole('ROLE_ADMIN')">
+                        <c:choose>
+                            <c:when test="${user.isAdmin()}">
+                                <option selected value="ROLE_ADMIN">Librarian</option>
+                                <option value="ROLE_USER">Reader</option>
+                            </c:when>
+                            <c:otherwise>
+                                <option selected value="ROLE_USER">Reader</option>
+                                <option value="ROLE_ADMIN">Librarian</option>
+                            </c:otherwise>
+                        </c:choose>
+                    </sec:authorize>
+                    <sec:authorize access="!hasRole('ROLE_ADMIN')">
+                        <option selected value="ROLE_USER">Reader</option>
+                    </sec:authorize>
                 </select>
             </dd>
         </dl>
         <button type="submit">Save</button>
         <button onclick="window.history.back()">Cancel</button>
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
     </form>
 </section>
 </body>

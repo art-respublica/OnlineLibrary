@@ -1,4 +1,4 @@
-
+<%--<!DOCTYPE html>--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -20,7 +20,7 @@
         <th>Email</th>
         <th>Registered</th>
         <th>Enabled</th>
-        <th>Role</th>
+        <th>Roles</th>
         <th></th>
         <th></th>
     </tr>
@@ -32,7 +32,7 @@
             <td>${user.getEmail()}</td>
             <td>${user.getRegistered()}</td>
             <td>${user.isEnabled()}</td>
-            <td>${user.getRole()}</td>
+            <td>${user.getRoles()}</td>
             <td><a href="users/update/${user.getId()}">Update</a></td>
             <td><a href="users/delete/${user.getId()}">Delete</a></td>
         </tr>
