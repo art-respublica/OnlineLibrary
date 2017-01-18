@@ -80,7 +80,7 @@ public class UserController {
         return "user";
     }
 
-    @GetMapping("/users/profile")
+    @GetMapping("/users/profile/show")
     public String showProfile(Model model) throws WrongProcessingOfUserException {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth == null) {

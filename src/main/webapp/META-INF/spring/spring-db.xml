@@ -7,22 +7,29 @@
          http://www.springframework.org/schema/context
          http://www.springframework.org/schema/context/spring-context.xsd">
 
+    <!--Repository beans-->
     <!--<context:component-scan base-package="ru.innopolis.uni.course3.repository"/>-->
-    <bean id="BookRepository" class="ru.innopolis.uni.course3.repository.JdbcBookRepositoryImpl"/>
-    <bean id="UserRepository" class="ru.innopolis.uni.course3.repository.JdbcUserRepositoryImpl" />
+    <!--<bean id="BookRepository" class="ru.innopolis.uni.course3.repository.JdbcBookRepositoryImpl"/>-->
+    <!--<bean id="UserRepository" class="ru.innopolis.uni.course3.repository.JdbcUserRepositoryImpl" />-->
+    <bean id="BookRepository" class="ru.innopolis.uni.course3.repository.JPAHibernateBookRepositoryImpl">
+        <constructor-arg ref="entityManagerFactory"/>
+    </bean>
+    <bean id="UserRepository" class="ru.innopolis.uni.course3.repository.JPAHibernateUserRepositoryImpl">
+        <constructor-arg ref="entityManagerFactory"/>
+    </bean>
 
+
+    <!--No pooled data source for Spring JDBC-->
+    <!--<bean id="dataSource"
+          class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="org.postgresql.Driver"/>
+        <property name="url" value="${database.url}"/>
+        <property name="username" value="${database.username}"/>
+        <property name="password" value="${database.password}"/>
+    </bean>-->
     <context:property-placeholder location="classpath:db/postgres.properties" system-properties-mode="OVERRIDE"/>
 
-<!--        &lt;!&ndash;no pooling&ndash;&gt;
-        <bean id="dataSource"
-              class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-            <property name="driverClassName" value="org.postgresql.Driver"/>
-            <property name="url" value="${database.url}"/>
-            <property name="username" value="${database.username}"/>
-            <property name="password" value="${database.password}"/>
-        </bean>-->
-
-    <!--pooling-->
+    <!--JDBC and pooled data source for him-->
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close" >
         <property name="driverClassName" value="org.postgresql.Driver"/>
         <property name="url" value="${database.url}"/>
@@ -32,13 +39,49 @@
         <property name="initialSize" value="20" />
         <property name="maxActive" value="30" />
     </bean>
-
     <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
         <constructor-arg ref="dataSource"/>
     </bean>
-
     <bean id="namedJdbcTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
         <constructor-arg ref="dataSource"/>
+    </bean>
+
+    <!--JPA and Hibernate-->
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="persistenceXmlLocation" value="classpath:META-INF/persistence.xml"/>
+        <property name="persistenceUnitName" value="onlinelibrarydb"/>
+        <property name="dataSource" ref="dataSource" />
+        <property name="jpaVendorAdapter">
+            <bean id="jpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+                <property name="showSql" value="true"/>
+                <property name="generateDdl" value="true"/>
+                <property name="databasePlatform" value="org.hibernate.dialect.PostgreSQL94Dialect"/>
+            </bean>
+        </property>
+    </bean>
+<!--    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+    &lt;!&ndash;<property name="configLocation" value="classpath:./"/>&ndash;&gt;
+    <property name="persistenceUnitName" value="base"/>
+    <property name="dataSource" ref="dataSource" />
+    <property name="jpaVendorAdapter" ref="jpaVendorAdapter" />
+
+    <property name="packagesToScan">
+        <list>
+            <value>ru.inno.Entity</value>
+        </list>
+    </property>
+
+    <property name="jpaProperties">
+        <props>
+            <prop key="hibernate.archive.autodetection">class,hbm</prop>
+            <prop key="hibernate.hbm2ddl.auto">update</prop>
+            <prop key="hibernate.show_sql">false</prop>
+            <prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQL94Dialect</prop>
+        </props>
+    </property>-->
+
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory" />
     </bean>
 
 </beans>

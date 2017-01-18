@@ -20,7 +20,7 @@
 
         <security:intercept-url pattern="/users/signin" access="permitAll"/>
         <security:intercept-url pattern="/users/signup/new" access="permitAll"/>
-        <security:intercept-url pattern="/users/profile" access="isAuthenticated()"/>
+        <security:intercept-url pattern="/users/profile/show" access="isAuthenticated()"/>
         <security:intercept-url pattern="/users/logout" access="isAuthenticated()"/>
 
         <security:intercept-url pattern="/books" access="permitAll"/>

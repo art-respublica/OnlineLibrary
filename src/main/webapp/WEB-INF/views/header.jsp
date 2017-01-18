@@ -11,7 +11,7 @@
 <body>
 <sec:authorize access="isAuthenticated()">
     <c:url var="logoutURL" value="users/logout" />
-    <c:url var="userProfileURL" value="users/profile" />
+    <c:url var="userProfileURL" value="users/profile/show" />
     <sec:authentication var="user" property="principal" />
     <ul class="hr">
         <li><a href="${userProfileURL}">${user}</a></li>
