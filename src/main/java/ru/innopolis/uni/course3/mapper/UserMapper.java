@@ -1,0 +1,33 @@
+package ru.innopolis.uni.course3.mapper;
+
+import ma.glasnost.orika.MapperFacade;
+import ru.innopolis.uni.course3.model.User;
+
+/**
+ *
+ */
+public enum UserMapper {
+
+    INSTANCE;
+
+    private final MapperFacade mapperFacade;
+
+    private UserMapper() {
+        BaseMapper.MAPPER_FACTORY.classMap(User.class, ru.innopolis.uni.course3.entity.User.class)
+                .byDefault()
+                .register();
+        mapperFacade = BaseMapper.MAPPER_FACTORY.getMapperFacade();
+    }
+
+    public User map(ru.innopolis.uni.course3.entity.User userEntity) {
+        return this.mapperFacade.map(userEntity, User.class);
+    }
+
+    public ru.innopolis.uni.course3.entity.User map(User customer) {
+        return this.mapperFacade.map(customer, ru.innopolis.uni.course3.entity.User.class);
+    }
+
+}
+
+
+
