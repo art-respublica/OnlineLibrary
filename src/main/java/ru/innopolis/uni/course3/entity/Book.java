@@ -15,6 +15,9 @@ public class Book {
     private Integer year;
     private String text;
 
+    @Version
+    private long version;
+
     public Book() {
     }
 

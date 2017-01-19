@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 /**
  *
  */
-@Component
+//@Component
 public class JdbcUserRepositoryImpl implements UserRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(JdbcUserRepositoryImpl.class);

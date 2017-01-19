@@ -23,8 +23,8 @@ public enum UserMapper {
         return this.mapperFacade.map(userEntity, User.class);
     }
 
-    public ru.innopolis.uni.course3.entity.User map(User customer) {
-        return this.mapperFacade.map(customer, ru.innopolis.uni.course3.entity.User.class);
+    public ru.innopolis.uni.course3.entity.User map(User user) {
+        return this.mapperFacade.map(user, ru.innopolis.uni.course3.entity.User.class);
     }
 
 }

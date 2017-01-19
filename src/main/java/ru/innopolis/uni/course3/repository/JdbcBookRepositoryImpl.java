@@ -18,7 +18,7 @@ import java.util.List;
 /**
  *  Implements BookRepository methods for the jdbc connection
  */
-@Component
+//@Component
 public class JdbcBookRepositoryImpl implements BookRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(JdbcBookRepositoryImpl.class);
