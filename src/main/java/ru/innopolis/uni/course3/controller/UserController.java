@@ -105,7 +105,12 @@ public class UserController {
     @PostMapping("users/*/save")
     public String processEditing(@RequestParam Integer id, @RequestParam String name,
             @RequestParam String email, @RequestParam String password, @RequestParam String role) throws WrongProcessingOfUserException {
-        User user = new User(id, name, email, password, new Date(), true, Role.valueOf(role));
+        User user = null;
+        if ("ROLE_ADMIN".equals(role)) {
+            user = new User(id, name, email, password, new Date(), true, Role.valueOf(role), Role.valueOf("ROLE_USER"));
+        } else {
+            user = new User(id, name, email, password, new Date(), true, Role.valueOf(role));
+        }
         logger.info("User controller:  " + (user.isNew() ? "create of/sign up " : "update of ") +  user);
         if(user.isNew() ){
             service.add(user);

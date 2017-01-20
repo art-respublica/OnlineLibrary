@@ -29,15 +29,9 @@ dependencies {
     compile group: 'commons-dbcp', name: 'commons-dbcp', version: '1.4'
     compile group: 'org.postgresql', name: 'postgresql', version: '9.4.1212'
 
-    compile (group: 'org.springframework', name: 'spring-jdbc', version: '4.3.3.RELEASE') {
-        exclude group: 'commons-logging', module: 'commons-logging'
-    }
-    compile (group: 'org.springframework', name: 'spring-context', version: '4.3.3.RELEASE') {
-        exclude group: 'commons-logging', module: 'commons-logging'
-    }
-    compile (group: 'org.springframework', name: 'spring-webmvc', version: '4.3.3.RELEASE') {
-        exclude group: 'commons-logging', module: 'commons-logging'
-    }
+    compile group: 'org.springframework', name: 'spring-jdbc', version: '4.3.3.RELEASE'
+    compile group: 'org.springframework', name: 'spring-context', version: '4.3.3.RELEASE'
+    compile group: 'org.springframework', name: 'spring-webmvc', version: '4.3.3.RELEASE'
     compile group: 'org.springframework', name: 'spring-test', version: '4.3.3.RELEASE'
     compile group: 'org.springframework', name: 'spring-orm', version: '4.3.3.RELEASE'
 
@@ -52,6 +46,5 @@ dependencies {
     compile group: 'org.hibernate', name: 'hibernate-validator', version: '5.3.4.Final'
 
     compile group: 'ma.glasnost.orika', name: 'orika-core', version: '1.5.0'
-
 
 }

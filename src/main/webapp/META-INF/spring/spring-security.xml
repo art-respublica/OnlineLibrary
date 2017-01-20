@@ -39,10 +39,10 @@
         <security:intercept-url pattern="/users/update/save" access="hasRole('ROLE_ADMIN')"/>
         <security:intercept-url pattern="/users/signup/save" access="permitAll"/>
 
-<!--        <security:form-login login-page="/login"
-                default-target-url="/books"
+        <security:form-login login-page="/login"
+                default-target-url="/users/signin"
                 authentication-failure-url="/login?error=true"
-                login-processing-url="/users/singin"/>-->
+                login-processing-url="/login"/>
 
         <security:anonymous username="guest" granted-authority="ROLE_ANONYMOUS"/>
         <security:remember-me/>

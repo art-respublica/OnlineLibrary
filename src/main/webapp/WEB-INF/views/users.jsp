@@ -34,7 +34,14 @@
             <td>${user.isEnabled()}</td>
             <td>${user.getRoles()}</td>
             <td><a href="users/update/${user.getId()}">Update</a></td>
-            <td><a href="users/delete/${user.getId()}">Delete</a></td>
+            <c:choose>
+                <c:when test="${pageContext.request.userPrincipal.name.equals(user.getEmail())}">
+                    <td/>
+                </c:when>
+                <c:otherwise>
+                    <td><a href="users/delete/${user.getId()}">Delete</a></td>
+                </c:otherwise>
+            </c:choose>
         </tr>
     </c:forEach>
 </table>

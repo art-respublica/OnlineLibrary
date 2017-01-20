@@ -12,24 +12,15 @@
 
     <!--Repository beans-->
     <!--<context:component-scan base-package="ru.innopolis.uni.course3.repository"/>-->
-    <!--<bean id="BookRepository" class="ru.innopolis.uni.course3.repository.JdbcBookRepositoryImpl"/>-->
-    <!--<bean id="UserRepository" class="ru.innopolis.uni.course3.repository.JdbcUserRepositoryImpl" />-->
- <!--   <bean id="BookRepository" class="ru.innopolis.uni.course3.repository.JPAHibernateBookRepositoryImpl">
-        <constructor-arg ref="entityManagerFactory"/>
-    </bean>-->
-<!--    <bean id="UserRepository" class="ru.innopolis.uni.course3.repository.JPAHibernateUserRepositoryImpl">
-        <constructor-arg ref="entityManagerFactory"/>
-    </bean>-->
-    <bean id="BookRepository" class="ru.innopolis.uni.course3.repository.JPAHibernateBookRepositoryImpl">
+<!--<bean id="BookRepository" class="ru.innopolis.uni.course3.repository.JdbcBookRepositoryImpl"/>
+    <bean id="UserRepository" class="ru.innopolis.uni.course3.repository.JdbcUserRepositoryImpl" />-->
+<!--    <bean id="BookRepository" class="ru.innopolis.uni.course3.repository.JPAHibernateBookRepositoryImpl">
         <constructor-arg ref="entityManagerFactory"/>
     </bean>
     <bean id="UserRepository" class="ru.innopolis.uni.course3.repository.JPAHibernateUserRepositoryImpl">
         <constructor-arg ref="entityManagerFactory"/>
-    </bean>
-    <!--<bean id="BookRepository" class="ru.innopolis.uni.course3.repository.SpringDataBookRepositoryImpl"/>-->
-    <!--<bean id="UserRepository" class="ru.innopolis.uni.course3.repository.SpringDataUserRepositoryImpl"/>-->
-
-    <!--<jpa:repositories base-package="ru.innopolis.uni.course3.repository.springdata"/>-->
+    </bean>-->
+    <jpa:repositories base-package="ru.innopolis.uni.course3.repository"/>
 
     <!--No pooled data source for Spring JDBC-->
     <!--<bean id="dataSource"
@@ -71,8 +62,8 @@
             </bean>
         </property>
     </bean>
- <!--   <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
         <property name="entityManagerFactory" ref="entityManagerFactory" />
-    </bean>-->
+    </bean>
 
 </beans>

@@ -1,4 +1,4 @@
-package ru.innopolis.uni.course3.repository.springdata;
+package ru.innopolis.uni.course3.repository;
 
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;

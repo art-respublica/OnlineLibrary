@@ -1,23 +1,32 @@
-package ru.innopolis.uni.course3.repository;
+package ru.innopolis.uni.course3.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import ru.innopolis.uni.course3.exception.ExceptionUtil;
+import ru.innopolis.uni.course3.exception.WrongProcessingOfBookException;
 import ru.innopolis.uni.course3.mapper.BookMapper;
 import ru.innopolis.uni.course3.model.Book;
-import ru.innopolis.uni.course3.repository.springdata.SpringDataBookRepository;
+import ru.innopolis.uni.course3.repository.SpringDataBookRepository;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 /**
- *
+ *  Implements BookService methods
  */
-public class SpringDataBookRepositoryImpl implements BookRepository{
+@Service
+public class SpringDataBookServiceImpl implements BookService {
+
+    private static final Logger logger = LoggerFactory.getLogger(BookServiceImpl.class);
 
     @Autowired
     private SpringDataBookRepository repository;
 
-    public SpringDataBookRepositoryImpl() {
+    public SpringDataBookServiceImpl() {
     }
 
     @Override
@@ -31,20 +40,20 @@ public class SpringDataBookRepositoryImpl implements BookRepository{
     }
 
     @Override
-    public boolean delete(int id) {
+    public void delete(int id) throws WrongProcessingOfBookException {
         repository.delete(id);
-        return true;
     }
 
     @Override
-    public Book get(int id) {
-        return BookMapper.INSTANCE.map(repository.findOne(id));
+    public Book get(int id) throws WrongProcessingOfBookException {
+        return ExceptionUtil.checkBookNotFoundWithId(BookMapper.INSTANCE.map(repository.findOne(id)), id);
     }
 
     @Override
     public List<Book> getAll() {
         return StreamSupport.stream(repository.findAll().spliterator(), false)
                 .map(BookMapper.INSTANCE::map)
+                .sorted(Comparator.comparing(Book::getAuthor))
                 .collect(Collectors.toList());
     }
 }
