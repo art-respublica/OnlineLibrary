@@ -1,5 +1,7 @@
 package ru.innopolis.uni.course3.entity;
 
+import org.hibernate.annotations.*;
+import org.hibernate.annotations.Cache;
 import ru.innopolis.uni.course3.model.Role;
 
 import javax.persistence.*;
@@ -14,6 +16,7 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = "email", name = "users_unique_email_idx")})
+@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region="users")
 public class User implements Serializable {
 
     private Integer id;
@@ -102,6 +105,7 @@ public class User implements Serializable {
     })
     @Column(name = "role")
     @ElementCollection(fetch = FetchType.EAGER)
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region="users")
     public Set<Role> getRoles() {
         return roles;
     }
