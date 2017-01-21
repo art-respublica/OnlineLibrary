@@ -15,6 +15,7 @@
     <form method="post" action="save">
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
         <input type="hidden" name="id" value="${book.getId()}">
+        <input type="hidden" name="version" value="${book.getVersion()}">
         <dl>
             <dt>Author:</dt>
             <dd><input type="text" value="${book.getAuthor()}" size=40 name="author"></dd>

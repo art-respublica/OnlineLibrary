@@ -11,23 +11,26 @@ public class Book {
     private Integer year;
     private String text;
 
+    private Integer version;
+
     public Book() {
     }
 
     public Book(Book b) {
-        this(b.getId(), b.getAuthor(), b.getTitle(), b.getYear(), b.getText());
+        this(b.getId(), b.getAuthor(), b.getTitle(), b.getYear(), b.getText(), b.getVersion());
     }
 
-    public Book(String author, String title, Integer year, String text) {
-        this(null, author, title, year, text);
+    public Book(String author, String title, Integer year, String text, Integer version) {
+        this(null, author, title, year, text, version);
     }
 
-    public Book(Integer id, String author, String title, Integer year, String text) {
+    public Book(Integer id, String author, String title, Integer year, String text, Integer version) {
         this.id = id;
         this.author = author;
         this.title = title;
         this.year = year;
         this.text = text;
+        this.version = version;
     }
 
     public Integer getId() {
@@ -72,6 +75,14 @@ public class Book {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
     }
 
     @Override

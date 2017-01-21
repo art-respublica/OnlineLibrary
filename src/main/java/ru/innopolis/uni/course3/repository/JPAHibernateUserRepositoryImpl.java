@@ -20,12 +20,14 @@ public class JPAHibernateUserRepositoryImpl implements UserRepository {
 
     private EntityManager em;
     private EntityManagerFactory emf;
+    private UserMapper mapper;
 
     public JPAHibernateUserRepositoryImpl() {
     }
 
-    public JPAHibernateUserRepositoryImpl(EntityManagerFactory emf) {
+    public JPAHibernateUserRepositoryImpl(EntityManagerFactory emf, UserMapper mapper) {
         this.emf = emf;
+        this.mapper = mapper;
     }
 
     @Override
@@ -41,7 +43,7 @@ public class JPAHibernateUserRepositoryImpl implements UserRepository {
             em.close();
             throw new WrongProcessingOfUserException("Some problems with adding of user - duplicate email");
         } else {
-            ru.innopolis.uni.course3.entity.User userEntity = UserMapper.INSTANCE.map(user);
+            ru.innopolis.uni.course3.entity.User userEntity = mapper.map(user);
             if (!em.contains(userEntity)) {
                 em.persist(userEntity);
 //                em.flush();
@@ -58,7 +60,7 @@ public class JPAHibernateUserRepositoryImpl implements UserRepository {
         em = emf.createEntityManager();
         EntityTransaction transaction = em.getTransaction();
         transaction.begin();
-        ru.innopolis.uni.course3.entity.User userEntity = UserMapper.INSTANCE.map(user);
+        ru.innopolis.uni.course3.entity.User userEntity = mapper.map(user);
         em.merge(userEntity);
 //        em.flush();
         transaction.commit();
@@ -82,7 +84,7 @@ public class JPAHibernateUserRepositoryImpl implements UserRepository {
     @Override
     public User get(int id) {
         em = emf.createEntityManager();
-        User user = UserMapper.INSTANCE.map(em.find(ru.innopolis.uni.course3.entity.User.class, id));
+        User user = mapper.map(em.find(ru.innopolis.uni.course3.entity.User.class, id));
         em.close();
         return user;
     }
@@ -93,7 +95,7 @@ public class JPAHibernateUserRepositoryImpl implements UserRepository {
         Query query = em.createQuery("SELECT u FROM User u  ORDER BY u.email");
         List<ru.innopolis.uni.course3.entity.User> resultLits = query.getResultList();
         List<User> users = resultLits.stream()
-                .map(UserMapper.INSTANCE::map)
+                .map(mapper::map)
                 .collect(Collectors.toList());
         em.close();
         return users;
@@ -110,7 +112,7 @@ public class JPAHibernateUserRepositoryImpl implements UserRepository {
         }
         ru.innopolis.uni.course3.entity.User userEntity =
                 ((List<ru.innopolis.uni.course3.entity.User>) resultList).stream().findFirst().get();
-        User user = UserMapper.INSTANCE.map(userEntity);
+        User user = mapper.map(userEntity);
         em.close();
         return user;
     }

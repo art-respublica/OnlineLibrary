@@ -7,7 +7,6 @@ import ru.innopolis.uni.course3.exception.WrongProcessingOfUserException;
 import ru.innopolis.uni.course3.mapper.UserMapper;
 import ru.innopolis.uni.course3.model.User;
 import ru.innopolis.uni.course3.repository.SpringDataUserRepository;
-import ru.innopolis.uni.course3.repository.UserRepository;
 
 import java.util.Comparator;
 import java.util.List;
@@ -26,6 +25,9 @@ public class SpringDataUserServiceImpl implements UserService {
     @Autowired
     private PasswordAuthentication authentication;
 
+    @Autowired
+    private UserMapper mapper;
+
     public SpringDataUserServiceImpl() {
     }
 
@@ -37,15 +39,15 @@ public class SpringDataUserServiceImpl implements UserService {
         }
         user.setSalt(authentication.getSalt());
         user.setPassword(authentication.generateStrongPasswordHash(user.getPassword(), user.getSalt()));
-        return UserMapper.INSTANCE.map(repository.save(UserMapper.INSTANCE.map(user)));
+        return mapper.map(repository.save(mapper.map(user)));
     }
 
     @Override
     public User update(User user) {
-        User userWithSalt = UserMapper.INSTANCE.map(repository.findOne(user.getId()));
+        User userWithSalt = mapper.map(repository.findOne(user.getId()));
         user.setSalt(userWithSalt.getSalt());
         user.setPassword(authentication.generateStrongPasswordHash(user.getPassword(), userWithSalt.getSalt()));
-        return UserMapper.INSTANCE.map(repository.save(UserMapper.INSTANCE.map(user)));
+        return mapper.map(repository.save(mapper.map(user)));
     }
 
     @Override
@@ -55,19 +57,19 @@ public class SpringDataUserServiceImpl implements UserService {
 
     @Override
     public User get(int id) throws WrongProcessingOfUserException {
-        return ExceptionUtil.checkUserNotFoundWithId(UserMapper.INSTANCE.map(repository.findOne(id)), id);
+        return ExceptionUtil.checkUserNotFoundWithId(mapper.map(repository.findOne(id)), id);
     }
 
     @Override
     public List<User> getAll() {
         return StreamSupport.stream(repository.findAll().spliterator(), false)
-                .map(UserMapper.INSTANCE::map)
+                .map(mapper::map)
                 .sorted(Comparator.comparing(User::getEmail))
                 .collect(Collectors.toList());
     }
 
     @Override
     public User getByEmail(String email) {
-        return UserMapper.INSTANCE.map(repository.findByEmail(email));
+        return mapper.map(repository.findByEmail(email));
     }
 }

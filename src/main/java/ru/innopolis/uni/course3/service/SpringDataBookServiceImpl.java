@@ -26,17 +26,20 @@ public class SpringDataBookServiceImpl implements BookService {
     @Autowired
     private SpringDataBookRepository repository;
 
+    @Autowired
+    private BookMapper mapper;
+
     public SpringDataBookServiceImpl() {
     }
 
     @Override
     public Book add(Book book) {
-        return BookMapper.INSTANCE.map(repository.save(BookMapper.INSTANCE.map(book)));
+        return mapper.map(repository.save(mapper.map(book)));
     }
 
     @Override
     public Book update(Book book) {
-        return BookMapper.INSTANCE.map(repository.save(BookMapper.INSTANCE.map(book)));
+        return mapper.map(repository.save(mapper.map(book)));
     }
 
     @Override
@@ -46,13 +49,13 @@ public class SpringDataBookServiceImpl implements BookService {
 
     @Override
     public Book get(int id) throws WrongProcessingOfBookException {
-        return ExceptionUtil.checkBookNotFoundWithId(BookMapper.INSTANCE.map(repository.findOne(id)), id);
+        return ExceptionUtil.checkBookNotFoundWithId(mapper.map(repository.findOne(id)), id);
     }
 
     @Override
     public List<Book> getAll() {
         return StreamSupport.stream(repository.findAll().spliterator(), false)
-                .map(BookMapper.INSTANCE::map)
+                .map(mapper::map)
                 .sorted(Comparator.comparing(Book::getAuthor))
                 .collect(Collectors.toList());
     }

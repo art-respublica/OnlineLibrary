@@ -25,6 +25,8 @@ public class User implements Serializable {
     private boolean enabled = true;
     private Set<Role> roles;
 
+    private Integer version;
+
     public User() {
     }
 
@@ -108,4 +110,13 @@ public class User implements Serializable {
         this.roles = roles;
     }
 
+    @Version
+    @Column(name = "version")
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
+    }
 }

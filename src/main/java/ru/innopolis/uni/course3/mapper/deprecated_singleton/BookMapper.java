@@ -1,25 +1,23 @@
-package ru.innopolis.uni.course3.mapper;
+package ru.innopolis.uni.course3.mapper.deprecated_singleton;
 
 import ma.glasnost.orika.MapperFacade;
-import ma.glasnost.orika.MapperFactory;
 import ru.innopolis.uni.course3.model.Book;
 
 /**
  *
  */
-public class BookMapper {
+@Deprecated
+public enum BookMapper {
 
-    private MapperFactory factory;
-    private MapperFacade mapperFacade;
+    INSTANCE;
 
-    public BookMapper() {
-    }
+    private final MapperFacade mapperFacade;
 
-    public BookMapper(MapperFactory factory) {
-        factory.classMap(Book.class, ru.innopolis.uni.course3.entity.Book.class)
+    private BookMapper() {
+        BaseMapper.MAPPER_FACTORY.classMap(Book.class, ru.innopolis.uni.course3.entity.Book.class)
                 .byDefault()
                 .register();
-        mapperFacade = factory.getMapperFacade();
+        mapperFacade = BaseMapper.MAPPER_FACTORY.getMapperFacade();
     }
 
     public Book map(ru.innopolis.uni.course3.entity.Book bookEntity) {
@@ -31,3 +29,6 @@ public class BookMapper {
     }
 
 }
+
+
+

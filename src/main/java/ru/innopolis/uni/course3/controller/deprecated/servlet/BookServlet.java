@@ -77,7 +77,7 @@ public class BookServlet extends HttpServlet {
 
             try {
                 Book book = action.equals("create") ?
-                        new Book("", "", LocalDate.now().getYear(), "") : service.get(getId(req));
+                        new Book("", "", LocalDate.now().getYear(), "", 0) : service.get(getId(req));
                 req.setAttribute("book", book);
                 req.getRequestDispatcher("/WEB-INF/views/book.jsp").forward(req, resp);
             } catch (WrongProcessingOfBookException e) {
@@ -96,7 +96,8 @@ public class BookServlet extends HttpServlet {
                 req.getParameter("author"),
                 req.getParameter("title"),
                 Integer.valueOf(req.getParameter("year")),
-                req.getParameter("text"));
+                req.getParameter("text"),
+                Integer.valueOf(req.getParameter("version")));
         logger.info("BookServlet:  " + (book.isNew() ? "create of" : "update of") +  book);
         if(book.isNew() ){
             service.add(book);

@@ -15,8 +15,7 @@ public class Book {
     private Integer year;
     private String text;
 
-    @Version
-    private long version;
+    private Integer version;
 
     public Book() {
     }
@@ -68,4 +67,13 @@ public class Book {
         this.text = text;
     }
 
+    @Version
+    @Column(name = "version")
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
+    }
 }

@@ -1,4 +1,4 @@
-package ru.innopolis.uni.course3.controller;
+package ru.innopolis.uni.course3.controller.deprecated;
 
 import org.hibernate.exception.ConstraintViolationException;
 import org.slf4j.Logger;
@@ -14,6 +14,7 @@ import ru.innopolis.uni.course3.exception.WrongProcessingOfUserException;
 /**
  *
  */
+@Deprecated
 @ControllerAdvice
 public class ExceptionHandlingController {
 

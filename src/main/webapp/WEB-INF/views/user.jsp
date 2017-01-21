@@ -15,6 +15,7 @@
     <jsp:useBean id="user" type="ru.innopolis.uni.course3.model.User" scope="request"/>
     <form method="post" action="save">
         <input type="hidden" name="id" value="${user.getId()}">
+        <input type="hidden" name="version" value="${user.getVersion()}">
         <dl>
             <dt>Name:</dt>
             <dd><input type="text" value="${user.getName()}" size=40 name="name"></dd>

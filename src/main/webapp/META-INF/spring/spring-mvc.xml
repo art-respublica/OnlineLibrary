@@ -12,6 +12,8 @@
 
     <mvc:annotation-driven/>
 
+    <mvc:resources mapping="/resources/**" location="/resources/"/>
+
     <!--<context:component-scan base-package="ru.innopolis.uni.course3.controller"/>-->
     <bean id="BookController" class="ru.innopolis.uni.course3.controller.BookController">
         <constructor-arg ref="BookService"/>
@@ -21,9 +23,7 @@
         <constructor-arg index="1" ref="PasswordAuthentication"/>
         <constructor-arg index="2" ref="myUserDetailsService"/>
     </bean>
-    <bean id="ExceptionHandlingController" class="ru.innopolis.uni.course3.controller.ExceptionHandlingController" />
-
-    <mvc:resources mapping="/resources/**" location="/resources/"/>
+    <!--<bean id="ExceptionHandlingController" class="ru.innopolis.uni.course3.controller.deprecated.ExceptionHandlingController" />-->
 
     <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver" >
         <property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
@@ -33,6 +33,20 @@
         <property name="suffix">
             <value>.jsp</value>
         </property>
+    </bean>
+
+    <bean id="simpleMappingExceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+        <property name="exceptionMappings">
+            <map>
+                <entry key="ru.innopolis.uni.course3.exception.WrongProcessingOfBookException" value="wrong" />
+                <entry key="ru.innopolis.uni.course3.exception.WrongProcessingOfUserException" value="wrong"/>
+                <entry key="org.hibernate.exception.ConstraintViolationException" value="wrong"/>
+                <entry key="org.springframework.dao.EmptyResultDataAccessException" value="wrong"/>
+                <entry key="javax.persistence.OptimisticLockException" value="wrong"/>
+            </map>
+        </property>
+        <property name="defaultErrorView" value="wrong"/>
+        <property name="exceptionAttribute" value="exception"/>
     </bean>
 
 </beans>

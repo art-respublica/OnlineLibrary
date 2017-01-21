@@ -7,13 +7,14 @@ CREATE SEQUENCE global_seq START 100000;
 
 CREATE TABLE users
 (
-  id         INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
-  name       VARCHAR NOT NULL,
-  email      VARCHAR NOT NULL,
-  password   VARCHAR NOT NULL,
-  salt       VARCHAR NOT NULL,
-  registered TIMESTAMP DEFAULT now(),
-  enabled    BOOL DEFAULT TRUE
+  id          INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
+  name        VARCHAR NOT NULL,
+  email       VARCHAR NOT NULL,
+  password    VARCHAR NOT NULL,
+  salt        VARCHAR NOT NULL,
+  registered  TIMESTAMP DEFAULT now(),
+  enabled     BOOL DEFAULT TRUE,
+  version     INTEGER
 );
 
 CREATE UNIQUE INDEX users_unique_email_idx ON users (email);
@@ -33,5 +34,6 @@ CREATE TABLE books (
   author      TEXT NOT NULL,
   title       TEXT NOT NULL,
   year        INTEGER NOT NULL,
-  text        TEXT NOT NULL
+  text        TEXT NOT NULL,
+  version     INTEGER
 );

@@ -62,7 +62,7 @@ public class BookController {
 
     @GetMapping("/books/create/new")
     public String add(Model model){
-        Book book = new Book("", "", LocalDate.now().getYear(), "");
+        Book book = new Book("", "", LocalDate.now().getYear(), "", 0);
         model.addAttribute("book", book);
         return "book";
     }

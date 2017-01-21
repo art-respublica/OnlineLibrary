@@ -16,12 +16,14 @@ public class JPAHibernateBookRepositoryImpl implements BookRepository {
 
     private EntityManager em;
     private EntityManagerFactory emf;
+    private BookMapper mapper;
 
     public JPAHibernateBookRepositoryImpl() {
     }
 
-    public JPAHibernateBookRepositoryImpl(EntityManagerFactory emf) {
+    public JPAHibernateBookRepositoryImpl(EntityManagerFactory emf, BookMapper mapper) {
         this.emf = emf;
+        this.mapper = mapper;
     }
 
     @Override
@@ -29,7 +31,7 @@ public class JPAHibernateBookRepositoryImpl implements BookRepository {
         em = emf.createEntityManager();
         EntityTransaction transaction = em.getTransaction();
         transaction.begin();
-        ru.innopolis.uni.course3.entity.Book bookEntity = BookMapper.INSTANCE.map(book);
+        ru.innopolis.uni.course3.entity.Book bookEntity = mapper.map(book);
         if (!em.contains(bookEntity)) {
             em.persist(bookEntity);
 //            em.flush();
@@ -45,7 +47,7 @@ public class JPAHibernateBookRepositoryImpl implements BookRepository {
         em = emf.createEntityManager();
         EntityTransaction transaction = em.getTransaction();
         transaction.begin();
-        ru.innopolis.uni.course3.entity.Book bookEntity = BookMapper.INSTANCE.map(book);
+        ru.innopolis.uni.course3.entity.Book bookEntity = mapper.map(book);
         em.merge(bookEntity);
 //        em.flush();
         transaction.commit();
@@ -69,7 +71,7 @@ public class JPAHibernateBookRepositoryImpl implements BookRepository {
     @Override
     public Book get(int id) {
         em = emf.createEntityManager();
-        Book book = BookMapper.INSTANCE.map(em.find(ru.innopolis.uni.course3.entity.Book.class, id));
+        Book book = mapper.map(em.find(ru.innopolis.uni.course3.entity.Book.class, id));
         em.close();
         return book;
     }
@@ -80,7 +82,7 @@ public class JPAHibernateBookRepositoryImpl implements BookRepository {
         Query query = em.createQuery("SELECT b FROM Book b ORDER BY b.author, b.title");
         List<ru.innopolis.uni.course3.entity.Book> resultLits = query.getResultList();
         List<Book> books = resultLits.stream()
-                .map(BookMapper.INSTANCE::map)
+                .map(mapper::map)
                 .collect(Collectors.toList());
         em.close();
         return books;

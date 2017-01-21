@@ -68,14 +68,14 @@ public class UserController {
 
     @GetMapping("/users/create/new")
     public String add(Model model){
-        User user = new User("", "", "", new Date(), true, null);
+        User user = new User("", "", "", new Date(), true, 0, null);
         model.addAttribute("user", user);
         return "user";
     }
 
     @GetMapping("/users/signup/new")
     public String signUp(Model model){
-        User user = new User("", "", "", new Date(), true, null);
+        User user = new User("", "", "", new Date(), true, 0, null);
         model.addAttribute("user", user);
         return "user";
     }
@@ -103,13 +103,13 @@ public class UserController {
     }
 
     @PostMapping("users/*/save")
-    public String processEditing(@RequestParam Integer id, @RequestParam String name,
+    public String processEditing(@RequestParam Integer id, @RequestParam Integer version, @RequestParam String name,
             @RequestParam String email, @RequestParam String password, @RequestParam String role) throws WrongProcessingOfUserException {
         User user = null;
         if ("ROLE_ADMIN".equals(role)) {
-            user = new User(id, name, email, password, new Date(), true, Role.valueOf(role), Role.valueOf("ROLE_USER"));
+            user = new User(id, name, email, password, new Date(), true, version, Role.valueOf(role), Role.valueOf("ROLE_USER"));
         } else {
-            user = new User(id, name, email, password, new Date(), true, Role.valueOf(role));
+            user = new User(id, name, email, password, new Date(), true, version, Role.valueOf(role));
         }
         logger.info("User controller:  " + (user.isNew() ? "create of/sign up " : "update of ") +  user);
         if(user.isNew() ){

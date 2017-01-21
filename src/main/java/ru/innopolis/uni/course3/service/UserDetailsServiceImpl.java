@@ -25,19 +25,17 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
     private SpringDataUserRepository repository;
-    //private UserRepository repository;
+
+    @Autowired
+    private UserMapper mapper;
 
     public UserDetailsServiceImpl() {
-    }
-
-    public UserDetailsServiceImpl(UserRepository repository) {
-//        this.repository = repository;
     }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 //        User user = repository.getByEmail(email);
-        User user = UserMapper.INSTANCE.map(repository.findByEmail(email));
+        User user = mapper.map(repository.findByEmail(email));
         if (user == null) {
             throw new UsernameNotFoundException("No user found with email: "+ email);
         }

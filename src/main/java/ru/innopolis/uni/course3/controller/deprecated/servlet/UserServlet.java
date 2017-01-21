@@ -67,7 +67,7 @@ public class UserServlet extends HttpServlet {
 
             try {
                 User user = action.equals("create") || "signup".equals(action) ?
-                        new User("", "", "", new Date(), false, null) : service.get(getId(req));
+                        new User("", "", "", new Date(), false, 0, null) : service.get(getId(req));
                 req.setAttribute("user", user);
                 req.getRequestDispatcher("/WEB-INF/views/user.jsp").forward(req, resp);
             } catch (WrongProcessingOfUserException e) {
@@ -112,6 +112,7 @@ public class UserServlet extends HttpServlet {
                     req.getParameter("password"),
                     null,
                     "true".equals(req.getParameter("enabled")) ? true : false,
+                    Integer.parseInt(req.getParameter("version")),
                     Role.valueOf(req.getParameter("role")));
             logger.info("UserServlet:  " + (user.isNew() ? "create of" : "update of") + user);
             if (user.isNew()) {

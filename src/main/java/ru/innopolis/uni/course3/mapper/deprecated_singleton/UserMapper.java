@@ -1,25 +1,23 @@
-package ru.innopolis.uni.course3.mapper;
+package ru.innopolis.uni.course3.mapper.deprecated_singleton;
 
 import ma.glasnost.orika.MapperFacade;
-import ma.glasnost.orika.MapperFactory;
 import ru.innopolis.uni.course3.model.User;
 
 /**
  *
  */
-public class UserMapper {
+@Deprecated
+public enum UserMapper {
 
-    private MapperFactory factory;
-    private MapperFacade mapperFacade;
+    INSTANCE;
 
-    public UserMapper() {
-    }
+    private final MapperFacade mapperFacade;
 
-    public UserMapper(MapperFactory factory) {
-        factory.classMap(User.class, ru.innopolis.uni.course3.entity.User.class)
+    private UserMapper() {
+        BaseMapper.MAPPER_FACTORY.classMap(User.class, ru.innopolis.uni.course3.entity.User.class)
                 .byDefault()
                 .register();
-        mapperFacade = factory.getMapperFacade();
+        mapperFacade = BaseMapper.MAPPER_FACTORY.getMapperFacade();
     }
 
     public User map(ru.innopolis.uni.course3.entity.User userEntity) {
@@ -31,3 +29,6 @@ public class UserMapper {
     }
 
 }
+
+
+
