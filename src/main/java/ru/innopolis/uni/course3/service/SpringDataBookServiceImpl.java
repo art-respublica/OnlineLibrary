@@ -3,6 +3,7 @@ package ru.innopolis.uni.course3.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import ru.innopolis.uni.course3.exception.ExceptionUtil;
 import ru.innopolis.uni.course3.exception.WrongProcessingOfBookException;
@@ -32,16 +33,19 @@ public class SpringDataBookServiceImpl implements BookService {
     public SpringDataBookServiceImpl() {
     }
 
+    @CacheEvict(value = "users", allEntries = true)
     @Override
     public Book add(Book book) {
         return mapper.map(repository.save(mapper.map(book)));
     }
 
+    @CacheEvict(value = "users", allEntries = true)
     @Override
     public Book update(Book book) {
         return mapper.map(repository.save(mapper.map(book)));
     }
 
+    @CacheEvict(value = "users", allEntries = true)
     @Override
     public void delete(int id) throws WrongProcessingOfBookException {
         repository.delete(id);
