@@ -1,6 +1,7 @@
 package ru.innopolis.uni.course3.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import ru.innopolis.uni.course3.exception.ExceptionUtil;
 import ru.innopolis.uni.course3.exception.WrongProcessingOfUserException;
@@ -31,6 +32,7 @@ public class SpringDataUserServiceImpl implements UserService {
     public SpringDataUserServiceImpl() {
     }
 
+    @CacheEvict(value = "users", allEntries = true)
     @Override
     public User add(User user) throws WrongProcessingOfUserException {
         if(user.getEmail() == null || user.getName() == null ||
@@ -42,6 +44,7 @@ public class SpringDataUserServiceImpl implements UserService {
         return mapper.map(repository.save(mapper.map(user)));
     }
 
+    @CacheEvict(value = "users", allEntries = true)
     @Override
     public User update(User user) {
         User userWithSalt = mapper.map(repository.findOne(user.getId()));
@@ -50,6 +53,7 @@ public class SpringDataUserServiceImpl implements UserService {
         return mapper.map(repository.save(mapper.map(user)));
     }
 
+    @CacheEvict(value = "users", allEntries = true)
     @Override
     public void delete(int id) throws WrongProcessingOfUserException {
         repository.delete(id);

@@ -33,19 +33,16 @@ public class SpringDataBookServiceImpl implements BookService {
     public SpringDataBookServiceImpl() {
     }
 
-    @CacheEvict(value = "users", allEntries = true)
     @Override
     public Book add(Book book) {
         return mapper.map(repository.save(mapper.map(book)));
     }
 
-    @CacheEvict(value = "users", allEntries = true)
     @Override
     public Book update(Book book) {
         return mapper.map(repository.save(mapper.map(book)));
     }
 
-    @CacheEvict(value = "users", allEntries = true)
     @Override
     public void delete(int id) throws WrongProcessingOfBookException {
         repository.delete(id);
