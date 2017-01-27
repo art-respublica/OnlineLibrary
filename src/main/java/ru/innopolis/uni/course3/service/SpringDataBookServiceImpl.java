@@ -22,8 +22,6 @@ import java.util.stream.StreamSupport;
 @Service
 public class SpringDataBookServiceImpl implements BookService {
 
-    private static final Logger logger = LoggerFactory.getLogger(BookServiceImpl.class);
-
     @Autowired
     private SpringDataBookRepository repository;
 

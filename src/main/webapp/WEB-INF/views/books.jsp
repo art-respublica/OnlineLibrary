@@ -6,40 +6,50 @@
 <html>
 <head>
     <title>Books</title>
+    <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/jquery.dataTables.css"/>"/>
 </head>
 <body>
 <%@ include file="header.jsp" %>
 <h2>Books</h2>
 <sec:authorize access="hasRole('ROLE_ADMIN')">
     <a href="books/create/new">Add Book</a>
+    <br>
+    <br>
 </sec:authorize>
-<table border="1" cellpadding="8" cellspacing="0">
+<table id="books" class="display">
     <thead>
     <tr>
         <th>Author</th>
         <th>Title</th>
         <th>Year</th>
-        <sec:authorize access="hasRole('ROLE_ADMIN')">
-            <th></th>
-            <th></th>
-        </sec:authorize>
+        <th></th>
+        <th></th>
         <th></th>
     </tr>
     </thead>
+    <tbody>
     <c:forEach items="${books}" var="book">
         <jsp:useBean id="book" scope="page" type="ru.innopolis.uni.course3.model.Book"/>
         <tr>
             <td>${book.getAuthor()}</td>
             <td>${book.getTitle()}</td>
             <td>${book.getYear()}</td>
-            <sec:authorize access="hasRole('ROLE_ADMIN')">
-                <td><a href="books/update/${book.getId()}">Update</a></td>
-                <td><a href="books/delete/${book.getId()}">Delete</a></td>
-            </sec:authorize>
             <td><a href="books/read/${book.getId()}">Read</a></td>
+            <td><a href="books/update/${book.getId()}">Update</a></td>
+            <td><a href="books/delete/${book.getId()}">Delete</a></td>
         </tr>
     </c:forEach>
+    </tbody>
 </table>
+<script type="text/javascript" charset="utf8" src="<c:url value="/resources/js/jquery-1.12.4.js"/>"></script>
+<script type="text/javascript" charset="utf8" src="<c:url value="/resources/js/jquery.dataTables.js"/>"></script>
+<sec:authorize access="hasRole('ROLE_ADMIN')">
+    <script>var access=true;</script>
+</sec:authorize>
+<sec:authorize access="!hasRole('ROLE_ADMIN')">
+    <script>var access=false;</script>
+</sec:authorize>
+<script type="text/javascript" charset="utf8" src="<c:url value="/resources/js/bookDatatables.js"/>"></script>
 </body>
 </html>
 

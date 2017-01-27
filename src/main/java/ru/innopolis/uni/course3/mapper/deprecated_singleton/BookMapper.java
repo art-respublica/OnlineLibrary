@@ -24,8 +24,8 @@ public enum BookMapper {
         return this.mapperFacade.map(bookEntity, Book.class);
     }
 
-    public ru.innopolis.uni.course3.entity.Book map(Book customer) {
-        return this.mapperFacade.map(customer, ru.innopolis.uni.course3.entity.Book.class);
+    public ru.innopolis.uni.course3.entity.Book map(Book book) {
+        return this.mapperFacade.map(book, ru.innopolis.uni.course3.entity.Book.class);
     }
 
 }
