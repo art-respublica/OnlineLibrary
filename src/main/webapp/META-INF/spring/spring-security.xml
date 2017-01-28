@@ -49,7 +49,7 @@
         <security:csrf disabled="false"/>
     </security:http>
 
-    <bean class="ru.innopolis.uni.course3.service.PasswordAuthentication"
+    <bean class="ru.innopolis.uni.course3.service.PasswordAuthenticationImpl"
           id="passwordEncoder" factory-method="getPasswordEncoder"/>
 
     <security:authentication-manager>

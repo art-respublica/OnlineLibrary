@@ -32,7 +32,7 @@
     <bean id="BookService" class="ru.innopolis.uni.course3.service.SpringDataBookServiceImpl"/>
     <bean id="UserService" class="ru.innopolis.uni.course3.service.SpringDataUserServiceImpl"/>
     <bean id="myUserDetailsService" class="ru.innopolis.uni.course3.service.UserDetailsServiceImpl"/>
-    <bean id="PasswordAuthentication" class="ru.innopolis.uni.course3.service.PasswordAuthentication"/>
+    <bean id="PasswordAuthentication" class="ru.innopolis.uni.course3.service.PasswordAuthenticationImpl"/>
 
 </beans>
 
