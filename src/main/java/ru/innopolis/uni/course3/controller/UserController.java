@@ -47,15 +47,15 @@ public class UserController {
 
     @GetMapping("/users")
     public String showList(Model model){
-        logger.info("User controller: get all records");
         model.addAttribute("users", service.getAll());
+        logger.info("User controller: have get all records");
         return "users";
     }
 
     @GetMapping("/users/delete/{userId}")
     public String deleteById(@PathVariable Integer userId, Model model) throws WrongProcessingOfUserException {
-        logger.info("User controller: delete user with id {}", userId);
         service.delete(userId);
+        logger.info("User controller: have deleted user with id {}", userId);
         return "redirect:/users";
     }
 
@@ -63,6 +63,7 @@ public class UserController {
     public String updateById(Model model, @PathVariable Integer userId) throws WrongProcessingOfUserException {
         User user = service.get(userId);
         model.addAttribute("user", user);
+        logger.info("User controller: have updated user with id {}", userId);
         return "user";
     }
 
@@ -70,6 +71,7 @@ public class UserController {
     public String add(Model model){
         User user = new User("", "", "", new Date(), true, 0, null);
         model.addAttribute("user", user);
+        logger.info("User controller: have created a new user");
         return "user";
     }
 
@@ -77,6 +79,7 @@ public class UserController {
     public String signUp(Model model){
         User user = new User("", "", "", new Date(), true, 0, null);
         model.addAttribute("user", user);
+        logger.info("User controller: a new user have signed up");
         return "user";
     }
 
@@ -90,6 +93,7 @@ public class UserController {
         User user = service.getByEmail(email);
         logger.info("User controller: user {} is watching his profile", user);
         model.addAttribute("user", user);
+        logger.info("User controller: the profile of logged user is showed");
         return "user";
     }
 
@@ -99,6 +103,7 @@ public class UserController {
         if (auth != null){
             new SecurityContextLogoutHandler().logout(request, response, auth);
         }
+        logger.info("User controller: logout");
         return "redirect:/books";
     }
 
@@ -111,7 +116,6 @@ public class UserController {
         } else {
             user = new User(id, name, email, password, new Date(), true, version, Role.valueOf(role));
         }
-        logger.info("User controller:  " + (user.isNew() ? "create of/sign up " : "update of ") +  user);
         if(user.isNew() ){
             service.add(user);
         } else {
@@ -123,18 +127,20 @@ public class UserController {
             Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
             hasRedirectedToUsers = authorities.contains(new SimpleGrantedAuthority("ROLE_ADMIN"));
         }
+        logger.info("User controller: have saved user with id {}", id);
         return hasRedirectedToUsers ? "redirect:/users" : "redirect:/books";
     }
 
     @PostMapping("users/signin")
     public String processEditing(@RequestParam String email, @RequestParam String password) throws WrongProcessingOfUserException {
         if (validateLogin(email, password)){
-            logger.info("User controller: sing in user with email {}", email);
             UserDetails userDetails = userDetailsService.loadUserByUsername(email);
             Authentication auth = new UsernamePasswordAuthenticationToken(userDetails.getUsername(),userDetails.getPassword(),userDetails.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(auth);
+            logger.info("User controller: sing in user with email {}", email);
             return "redirect:/books";
         } else {
+            logger.info("User controller: email {} is no validated", email);
             return "redirect:/login?error=true";
         }
     }
@@ -145,6 +151,7 @@ public class UserController {
                         @RequestParam(value = "message", required = false) String message)  {
         model.addAttribute("error", error);
         model.addAttribute("message", message);
+        logger.info("User controller: login");
         return "login";
     }
 

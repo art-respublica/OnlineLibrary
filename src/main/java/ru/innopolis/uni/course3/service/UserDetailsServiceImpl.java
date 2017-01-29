@@ -24,18 +24,14 @@ import java.util.Set;
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
-    private SpringDataUserRepository repository;
-
-    @Autowired
-    private UserMapper mapper;
+    private UserService service;
 
     public UserDetailsServiceImpl() {
     }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-//        User user = repository.getByEmail(email);
-        User user = mapper.map(repository.findByEmail(email));
+        User user = service.getByEmail(email);
         if (user == null) {
             throw new UsernameNotFoundException("No user found with email: "+ email);
         }
