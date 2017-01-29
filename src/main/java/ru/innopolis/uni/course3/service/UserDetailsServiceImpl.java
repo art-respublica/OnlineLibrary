@@ -23,11 +23,15 @@ import java.util.Set;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    @Autowired
     private UserService service;
 
     public UserDetailsServiceImpl() {
     }
+
+    public UserDetailsServiceImpl(UserService service) {
+        this.service = service;
+    }
+
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {

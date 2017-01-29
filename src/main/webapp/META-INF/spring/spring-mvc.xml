@@ -13,11 +13,11 @@
 
     <!--<context:component-scan base-package="ru.innopolis.uni.course3.controller"/>-->
     <bean id="BookController" class="ru.innopolis.uni.course3.controller.BookController">
-        <constructor-arg ref="BookService"/>
+        <constructor-arg ref="remoteBookService"/>
     </bean>
     <bean id="UserController" class="ru.innopolis.uni.course3.controller.UserController">
-        <constructor-arg index="0" ref="UserService"/>
-        <constructor-arg index="1" ref="PasswordAuthentication"/>
+        <constructor-arg index="0" ref="remoteUserService"/>
+        <constructor-arg index="1" ref="remotePasswordAuthentication"/>
         <constructor-arg index="2" ref="myUserDetailsService"/>
     </bean>
     <!--<bean id="ExceptionHandlingController" class="ru.innopolis.uni.course3.controller.deprecated.ExceptionHandlingController" />-->

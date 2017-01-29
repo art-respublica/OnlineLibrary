@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="remoteBookService" class="org.springframework.remoting.rmi.RmiProxyFactoryBean">
+        <property name="serviceUrl" value="rmi://localhost:1199/rmiBookService"/>
+        <property name="serviceInterface" value="ru.innopolis.uni.course3.service.BookService"/>
+        <property name="lookupStubOnStartup" value="false"/>
+        <property name="refreshStubOnConnectFailure" value="true"/>
+    </bean>
+
+    <bean id="remoteUserService" class="org.springframework.remoting.rmi.RmiProxyFactoryBean">
+        <property name="serviceUrl" value="rmi://localhost:1199/rmiUserService"/>
+        <property name="serviceInterface" value="ru.innopolis.uni.course3.service.UserService"/>
+        <property name="lookupStubOnStartup" value="false"/>
+        <property name="refreshStubOnConnectFailure" value="true"/>
+    </bean>
+
+    <bean id="remotePasswordAuthentication" class="org.springframework.remoting.rmi.RmiProxyFactoryBean">
+        <property name="serviceUrl" value="rmi://localhost:1199/rmiPasswordAuthentication"/>
+        <property name="serviceInterface" value="ru.innopolis.uni.course3.service.PasswordAuthentication"/>
+        <property name="lookupStubOnStartup" value="false"/>
+        <property name="refreshStubOnConnectFailure" value="true"/>
+    </bean>
+
+</beans>

@@ -17,8 +17,7 @@
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>
-            META-INF/spring/spring-app.xml
-            META-INF/spring/spring-db.xml
+            META-INF/spring/spring-rmiclient.xml
             META-INF/spring/spring-security.xml
         </param-value>
     </context-param>

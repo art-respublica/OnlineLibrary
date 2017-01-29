@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean class="org.springframework.remoting.rmi.RmiServiceExporter">
+        <property name="serviceName" value="rmiBookService"/>
+        <property name="service" ref="BookService"/>
+        <property name="serviceInterface" value="ru.innopolis.uni.course3.service.BookService"/>
+        <property name="registryPort" value="1199"/>
+    </bean>
+
+    <bean class="org.springframework.remoting.rmi.RmiServiceExporter">
+        <property name="serviceName" value="rmiUserService"/>
+        <property name="service" ref="UserService"/>
+        <property name="serviceInterface" value="ru.innopolis.uni.course3.service.UserService"/>
+        <property name="registryPort" value="1199"/>
+    </bean>
+
+    <bean class="org.springframework.remoting.rmi.RmiServiceExporter">
+        <property name="serviceName" value="rmiPasswordAuthentication"/>
+        <property name="service" ref="PasswordAuthentication"/>
+        <property name="serviceInterface" value="ru.innopolis.uni.course3.service.PasswordAuthentication"/>
+        <property name="registryPort" value="1199"/>
+    </bean>
+
+</beans>

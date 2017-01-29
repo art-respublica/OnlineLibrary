@@ -7,6 +7,10 @@
         http://www.springframework.org/schema/security
         http://www.springframework.org/schema/security/spring-security.xsd">
 
+    <bean id="myUserDetailsService" class="ru.innopolis.uni.course3.service.UserDetailsServiceImpl">
+        <constructor-arg ref="remoteUserService"/>
+    </bean>
+
     <security:global-method-security secured-annotations="enabled"/>
 
     <security:http auto-config="true" use-expressions="true">
